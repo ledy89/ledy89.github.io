@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risk Assessment · NovaTech GmbH · Ledy Florez</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --ink-muted: #4a4f5e;
+    --ink-faint: #8a909f;
+    --surface: #f7f6f2;
+    --surface-2: #eeecea;
+    --white: #ffffff;
+    --accent: #1a3a5c;
+    --accent-mid: #2d6aa0;
+    --rule: #d5d2cb;
+    --green: #0a5c3d;
+    --green-bg: #e6f4ef;
+    --green-mid: #1a7a52;
+    --amber: #7a4f00;
+    --amber-bg: #fef3dc;
+    --red: #8b1a1a;
+    --red-bg: #fceaea;
+    --red-mid: #c0392b;
+    --orange: #8b4000;
+    --orange-bg: #fef0e0;
+    --tag-bg: #e4edf5;
+    --tag-text: #1a3a5c;
+  }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo a {
+    color: var(--accent-mid);
+    text-decoration: none;
+  }
+
+  .nav-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--accent);
+    padding: 4rem 3rem 3rem;
+    color: #fff;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: rgba(255,255,255,0.35);
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+  }
+
+  .hero-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 700px;
+  }
+
+  .hero-meta-item {
+    background: rgba(255,255,255,0.05);
+    padding: 1rem 1.25rem;
+  }
+
+  .hero-meta-item .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .hero-meta-item .value {
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 3rem 5rem;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .section-header:first-child { margin-top: 0; }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-mid);
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  p { color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.75; }
+  p:last-child { margin-bottom: 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* EXECUTIVE SUMMARY BOXES */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .summary-box {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .summary-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .summary-box.blue::before { background: var(--accent-mid); }
+  .summary-box.green::before { background: var(--green-mid); }
+  .summary-box.amber::before { background: #c47a00; }
+  .summary-box.red::before { background: var(--red-mid); }
+
+  .summary-box h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+
+  .summary-box .big {
+    font-family: 'DM Mono', monospace;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .summary-box .desc {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  /* RISK TABLE */
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: var(--white);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead th {
+    background: var(--surface);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--surface-2);
+    color: var(--ink-muted);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface); }
+
+  td.asset-name {
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  /* RISK BADGES */
+  .risk-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .risk-critical { background: #fceaea; color: #8b1a1a; }
+  .risk-high { background: #fef0e0; color: #8b4000; }
+  .risk-medium { background: #fef3dc; color: #7a4f00; }
+  .risk-low { background: var(--green-bg); color: var(--green); }
+
+  .class-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 5px 14px;
+    border-radius: 3px;
+    border: 1px solid var(--rule);
+    background: var(--white);
+    color: var(--ink-muted);
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover { border-color: var(--accent-mid); color: var(--accent-mid); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .filter-btn.critical.active { background: var(--red-mid); border-color: var(--red-mid); }
+  .filter-btn.high.active { background: #c47a00; border-color: #c47a00; }
+  .filter-btn.medium.active { background: #b8860b; border-color: #b8860b; }
+  .filter-btn.low.active { background: var(--green-mid); border-color: var(--green-mid); }
+
+  /* HEATMAP */
+  .heatmap-container {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 2rem;
+  }
+
+  .heatmap-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: 40px repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr) 40px;
+    gap: 4px;
+    max-width: 560px;
+  }
+
+  .heatmap-cell {
+    height: 72px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    position: relative;
+    cursor: default;
+    transition: transform 0.15s;
+  }
+
+  .heatmap-cell:hover { transform: scale(1.04); z-index: 2; }
+
+  .heatmap-cell .dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 50%;
+    margin: 2px;
+    display: inline-block;
+  }
+
+  .heatmap-cell .dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    justify-content: center;
+    max-width: 48px;
+  }
+
+  .cell-low { background: #d4edda; }
+  .cell-low-med { background: #c8e6c9; }
+  .cell-medium { background: #fff3cd; }
+  .cell-high { background: #ffe0b2; }
+  .cell-critical { background: #ffcdd2; }
+
+  .axis-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+  }
+
+  .y-axis-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    grid-column: 1;
+    grid-row: 1 / 6;
+    align-self: center;
+  }
+
+  .heatmap-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  /* TREATMENT PLAN */
+  .treatment-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .treatment-card h4 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .treatment-card p {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .treatment-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--surface);
+    color: var(--ink-muted);
+    border: 1px solid var(--rule);
+  }
+
+  .treatment-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .status-priority { background: var(--red-bg); color: var(--red); }
+  .status-high { background: var(--orange-bg); color: var(--orange); }
+  .status-medium { background: var(--amber-bg); color: var(--amber); }
+
+  /* METHODOLOGY */
+  .method-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .method-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .method-card .method-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .method-card h4 {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+
+  .method-card p {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  /* SCOPE */
+  .scope-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .scope-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding: 0.65rem 1rem;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+
+  .scope-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-mid);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* AUTHOR FOOTER */
+  .author-footer {
+    background: var(--accent);
+    color: #fff;
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .author-info h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .author-info p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin: 0;
+  }
+
+  .author-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .author-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .author-link:hover { background: rgba(255,255,255,0.1); }
+
+  /* HIDDEN ROW */
+  tr.hidden { display: none; }
+
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 3rem 1.5rem 2rem; }
+    .hero h1 { font-size: 2rem; }
+    .hero-meta-grid { grid-template-columns: 1fr 1fr; }
+    .content { padding: 2rem 1.5rem 4rem; }
+    .summary-grid { grid-template-columns: 1fr; }
+    .method-grid { grid-template-columns: 1fr; }
+    .treatment-card { grid-template-columns: 1fr; }
+    .heatmap-grid { max-width: 100%; }
+    .author-footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><a href="https://ledy89.github.io">← ledy89.github.io</a> / risk-assessment</div>
+  <div class="nav-meta">
+    <span class="nav-tag">ISO 27001 · NIST CSF · GDPR</span>
+    <span class="nav-date">Apr 2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">GRC Portfolio Project · Risk Assessment</div>
+  <h1>NovaTech GmbH<br><em>Information Security Risk Assessment</em></h1>
+  <p class="hero-sub">A structured risk assessment for a simulated Berlin-based AI startup processing EU personal data, conducted using ISO/IEC 27001:2022 and NIST CSF as guiding frameworks.</p>
+  <div class="hero-meta-grid">
+    <div class="hero-meta-item">
+      <div class="label">Analyst</div>
+      <div class="value">Ledy Florez</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="label">Methodology</div>
+      <div class="value">ISO 27001 · NIST CSF</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="label">Risks Identified</div>
+      <div class="value">12 risks</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="label">Critical / High</div>
+      <div class="value">3 critical · 4 high</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="section-header">
+    <span class="section-num">01 · Executive Summary</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Overview</h2>
+  <p>NovaTech GmbH is a simulated Berlin-based technology startup of 30 employees that develops an AI-powered customer analytics platform. The company processes personal data of EU residents and hosts its infrastructure on AWS and GCP. This risk assessment was conducted to identify information security risks, evaluate their potential impact on the business, and recommend prioritized mitigation actions aligned with ISO/IEC 27001:2022 and NIST CSF.</p>
+  <p>The assessment identified 12 risks across five domains: data protection, access control, third-party management, AI governance, and infrastructure security. Three risks were rated Critical and four High, requiring immediate remediation action.</p>
+
+  <div class="summary-grid" style="margin-top:1.5rem;">
+    <div class="summary-box blue">
+      <h4>Total risks assessed</h4>
+      <div class="big">12</div>
+      <p class="desc">Across 5 risk domains</p>
+    </div>
+    <div class="summary-box red">
+      <h4>Critical risks</h4>
+      <div class="big">3</div>
+      <p class="desc">Require immediate action</p>
+    </div>
+    <div class="summary-box amber">
+      <h4>High risks</h4>
+      <div class="big">4</div>
+      <p class="desc">Remediation within 30 days</p>
+    </div>
+    <div class="summary-box green">
+      <h4>Frameworks applied</h4>
+      <div class="big">3</div>
+      <p class="desc">ISO 27001 · NIST CSF · GDPR</p>
+    </div>
+  </div>
+
+  <!-- SCOPE -->
+  <div class="section-header">
+    <span class="section-num">02 · Scope & Methodology</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>What was assessed</h2>
+  <p>The assessment covers NovaTech GmbH's core information assets, business processes, and technology infrastructure. The following domains were included in scope:</p>
+
+  <ul class="scope-list" style="margin: 1.25rem 0 1.5rem;">
+    <li>Customer personal data processing systems (GDPR Art. 5 & 25 obligations)</li>
+    <li>AI-based analytics platform (EU AI Act Annex III high-risk classification)</li>
+    <li>Cloud infrastructure hosted on AWS and GCP</li>
+    <li>Third-party vendor relationships and data processing agreements</li>
+    <li>Internal access control and identity management systems</li>
+    <li>Incident response and business continuity capabilities</li>
+  </ul>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-num">5×5</div>
+      <h4>Risk Matrix</h4>
+      <p>Likelihood (1-5) × Impact (1-5) scoring model. Risk score 1-9 Low, 10-14 Medium, 15-19 High, 20-25 Critical.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num">ISO</div>
+      <h4>Control Mapping</h4>
+      <p>Each risk mapped to ISO/IEC 27001:2022 Annex A controls and NIST CSF functions for treatment recommendations.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num">GDPR</div>
+      <h4>Regulatory Overlay</h4>
+      <p>Data protection risks assessed against GDPR Art. 5, 25, 30, 32 and EU AI Act Annex III classification criteria.</p>
+    </div>
+  </div>
+
+  <!-- ASSET INVENTORY -->
+  <div class="section-header">
+    <span class="section-num">03 · Asset Inventory</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Critical assets identified</h2>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Type</th>
+          <th>Classification</th>
+          <th>Owner</th>
+          <th>Regulatory relevance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="asset-name">Customer personal data database</td>
+          <td>Data</td>
+          <td><span class="risk-badge risk-critical">Confidential</span></td>
+          <td>DPO</td>
+          <td>GDPR Art. 5, 32</td>
+        </tr>
+        <tr>
+          <td class="asset-name">AI analytics platform</td>
+          <td>Software</td>
+          <td><span class="risk-badge risk-critical">Confidential</span></td>
+          <td>CTO</td>
+          <td>EU AI Act Annex III</td>
+        </tr>
+        <tr>
+          <td class="asset-name">AWS / GCP cloud infrastructure</td>
+          <td>Infrastructure</td>
+          <td><span class="risk-badge risk-high">Internal</span></td>
+          <td>IT Lead</td>
+          <td>ISO 27001 A.5.23</td>
+        </tr>
+        <tr>
+          <td class="asset-name">Employee identity & access system</td>
+          <td>System</td>
+          <td><span class="risk-badge risk-high">Internal</span></td>
+          <td>IT Lead</td>
+          <td>ISO 27001 A.5.15</td>
+        </tr>
+        <tr>
+          <td class="asset-name">Third-party vendor DPAs</td>
+          <td>Documentation</td>
+          <td><span class="risk-badge risk-high">Internal</span></td>
+          <td>Legal / DPO</td>
+          <td>GDPR Art. 28</td>
+        </tr>
+        <tr>
+          <td class="asset-name">RoPA register</td>
+          <td>Documentation</td>
+          <td><span class="risk-badge risk-medium">Internal</span></td>
+          <td>DPO</td>
+          <td>GDPR Art. 30</td>
+        </tr>
+        <tr>
+          <td class="asset-name">Incident response playbooks</td>
+          <td>Process</td>
+          <td><span class="risk-badge risk-medium">Internal</span></td>
+          <td>CISO</td>
+          <td>ISO 27001 A.5.26</td>
+        </tr>
+        <tr>
+          <td class="asset-name">Employee workstations & endpoints</td>
+          <td>Hardware</td>
+          <td><span class="risk-badge risk-low">Internal</span></td>
+          <td>IT Lead</td>
+          <td>ISO 27001 A.8.1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RISK REGISTER -->
+  <div class="section-header">
+    <span class="section-num">04 · Risk Register</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Identified risks</h2>
+  <p>Filter by risk level to focus on priority areas. Each risk includes likelihood, impact, composite score, applicable ISO 27001 control, and recommended treatment action.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterRisks('all', this)">All (12)</button>
+    <button class="filter-btn critical" onclick="filterRisks('critical', this)">Critical (3)</button>
+    <button class="filter-btn high" onclick="filterRisks('high', this)">High (4)</button>
+    <button class="filter-btn medium" onclick="filterRisks('medium', this)">Medium (3)</button>
+    <button class="filter-btn low" onclick="filterRisks('low', this)">Low (2)</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="risk-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Risk</th>
+          <th>Threat</th>
+          <th>L</th>
+          <th>I</th>
+          <th>Score</th>
+          <th>Level</th>
+          <th>ISO 27001 Control</th>
+          <th>Treatment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-level="critical">
+          <td><span class="class-badge">R01</span></td>
+          <td class="asset-name">Unauthorized access to customer personal data</td>
+          <td>Insider threat / external breach</td>
+          <td>4</td><td>5</td><td><strong>20</strong></td>
+          <td><span class="risk-badge risk-critical">Critical</span></td>
+          <td>A.5.15 · A.8.3</td>
+          <td>Implement RBAC, data encryption at rest and in transit, access logging</td>
+        </tr>
+        <tr data-level="critical">
+          <td><span class="class-badge">R02</span></td>
+          <td class="asset-name">AI model processing personal data without legal basis</td>
+          <td>Non-compliant AI feature deployment</td>
+          <td>4</td><td>5</td><td><strong>20</strong></td>
+          <td><span class="risk-badge risk-critical">Critical</span></td>
+          <td>A.5.31 · A.5.34</td>
+          <td>Conduct DPIA, document legal basis per GDPR Art. 6, EU AI Act conformity assessment</td>
+        </tr>
+        <tr data-level="critical">
+          <td><span class="class-badge">R03</span></td>
+          <td class="asset-name">Absence of data breach response procedure</td>
+          <td>Undetected or unmanaged security incident</td>
+          <td>3</td><td>5</td><td><strong>15</strong></td>
+          <td><span class="risk-badge risk-critical">Critical</span></td>
+          <td>A.5.26 · A.5.28</td>
+          <td>Develop incident response plan, define 72h GDPR notification workflow</td>
+        </tr>
+        <tr data-level="high">
+          <td><span class="class-badge">R04</span></td>
+          <td class="asset-name">Third-party vendor without valid DPA</td>
+          <td>GDPR Art. 28 non-compliance</td>
+          <td>4</td><td>4</td><td><strong>16</strong></td>
+          <td><span class="risk-badge risk-high">High</span></td>
+          <td>A.5.19 · A.5.20</td>
+          <td>Audit all vendor contracts, enforce DPA signing, document transfer mechanisms (SCCs)</td>
+        </tr>
+        <tr data-level="high">
+          <td><span class="class-badge">R05</span></td>
+          <td class="asset-name">Misconfigured cloud storage exposing sensitive data</td>
+          <td>Public S3/GCS bucket misconfiguration</td>
+          <td>3</td><td>5</td><td><strong>15</strong></td>
+          <td><span class="risk-badge risk-high">High</span></td>
+          <td>A.5.23 · A.8.9</td>
+          <td>Cloud security posture review, enforce least privilege on all buckets, enable access logging</td>
+        </tr>
+        <tr data-level="high">
+          <td><span class="class-badge">R06</span></td>
+          <td class="asset-name">Absence of MFA on critical systems</td>
+          <td>Account takeover via credential theft</td>
+          <td>4</td><td>4</td><td><strong>16</strong></td>
+          <td><span class="risk-badge risk-high">High</span></td>
+          <td>A.5.17 · A.8.2</td>
+          <td>Enforce MFA on all admin accounts and cloud consoles within 14 days</td>
+        </tr>
+        <tr data-level="high">
+          <td><span class="class-badge">R07</span></td>
+          <td class="asset-name">Incomplete RoPA covering all processing activities</td>
+          <td>Regulatory audit gap (GDPR Art. 30)</td>
+          <td>3</td><td>4</td><td><strong>12</strong></td>
+          <td><span class="risk-badge risk-high">High</span></td>
+          <td>A.5.31 · A.5.34</td>
+          <td>Complete RoPA for all 20+ processing activities, assign data owners, schedule quarterly reviews</td>
+        </tr>
+        <tr data-level="medium">
+          <td><span class="class-badge">R08</span></td>
+          <td class="asset-name">Lack of employee security awareness training</td>
+          <td>Social engineering / phishing</td>
+          <td>4</td><td>3</td><td><strong>12</strong></td>
+          <td><span class="risk-badge risk-medium">Medium</span></td>
+          <td>A.6.3</td>
+          <td>Implement annual security awareness program, phishing simulation quarterly</td>
+        </tr>
+        <tr data-level="medium">
+          <td><span class="class-badge">R09</span></td>
+          <td class="asset-name">No patch management process for endpoints</td>
+          <td>Exploitation of unpatched vulnerabilities</td>
+          <td>3</td><td>4</td><td><strong>12</strong></td>
+          <td><span class="risk-badge risk-medium">Medium</span></td>
+          <td>A.8.8 · A.8.19</td>
+          <td>Define patch cadence (critical: 24h, high: 7d), deploy endpoint management tooling</td>
+        </tr>
+        <tr data-level="medium">
+          <td><span class="class-badge">R10</span></td>
+          <td class="asset-name">Weak email authentication (SPF/DKIM/DMARC)</td>
+          <td>Email spoofing and phishing attacks</td>
+          <td>3</td><td>3</td><td><strong>9</strong></td>
+          <td><span class="risk-badge risk-medium">Medium</span></td>
+          <td>A.8.20</td>
+          <td>Configure SPF, DKIM, and DMARC records; set DMARC policy to reject</td>
+        </tr>
+        <tr data-level="low">
+          <td><span class="class-badge">R11</span></td>
+          <td class="asset-name">No clean desk policy enforced</td>
+          <td>Physical information exposure</td>
+          <td>2</td><td>3</td><td><strong>6</strong></td>
+          <td><span class="risk-badge risk-low">Low</span></td>
+          <td>A.7.7</td>
+          <td>Publish clean desk policy, include in onboarding checklist</td>
+        </tr>
+        <tr data-level="low">
+          <td><span class="class-badge">R12</span></td>
+          <td class="asset-name">Unmanaged use of personal devices (BYOD)</td>
+          <td>Data leakage via uncontrolled endpoints</td>
+          <td>2</td><td>3</td><td><strong>6</strong></td>
+          <td><span class="risk-badge risk-low">Low</span></td>
+          <td>A.6.7 · A.8.1</td>
+          <td>Implement BYOD policy with MDM enrollment requirement</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- HEATMAP -->
+  <div class="section-header">
+    <span class="section-num">05 · Risk Heatmap</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Probability vs Impact matrix</h2>
+  <p>Visual representation of all 12 identified risks. Each dot represents one risk plotted by likelihood (vertical) and impact (horizontal). Darker cells indicate higher combined risk exposure.</p>
+
+  <div class="heatmap-container" style="margin-top:1.25rem;">
+    <div class="heatmap-title">5×5 Risk Matrix · NovaTech GmbH</div>
+    <div style="display:flex; gap:2rem; align-items:flex-start; flex-wrap:wrap;">
+      <div>
+        <div style="display:grid; grid-template-columns: 36px repeat(5,64px); grid-template-rows: repeat(5,64px) 36px; gap:4px;">
+          <!-- Row 5 (likelihood=5) -->
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">5</div>
+          <div class="heatmap-cell cell-medium" title="L5×I1=5"></div>
+          <div class="heatmap-cell cell-high" title="L5×I2=10"></div>
+          <div class="heatmap-cell cell-high" title="L5×I3=15"></div>
+          <div class="heatmap-cell cell-critical" title="L5×I4=20"></div>
+          <div class="heatmap-cell cell-critical" title="L5×I5=25"></div>
+
+          <!-- Row 4 (likelihood=4) -->
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">4</div>
+          <div class="heatmap-cell cell-low-med" title="L4×I1=4"></div>
+          <div class="heatmap-cell cell-medium" title="L4×I2=8"></div>
+          <div class="heatmap-cell cell-high" title="L4×I3=12">
+            <div class="dots"><div class="dot"></div></div>
+          </div>
+          <div class="heatmap-cell cell-critical" title="L4×I4=16, R04 R06">
+            <div class="dots"><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="heatmap-cell cell-critical" title="L4×I5=20, R01 R02">
+            <div class="dots"><div class="dot"></div><div class="dot"></div></div>
+          </div>
+
+          <!-- Row 3 (likelihood=3) -->
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">3</div>
+          <div class="heatmap-cell cell-low-med" title="L3×I1=3"></div>
+          <div class="heatmap-cell cell-low-med" title="L3×I2=6"></div>
+          <div class="heatmap-cell cell-medium" title="L3×I3=9">
+            <div class="dots"><div class="dot"></div></div>
+          </div>
+          <div class="heatmap-cell cell-high" title="L3×I4=12, R07 R09">
+            <div class="dots"><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="heatmap-cell cell-critical" title="L3×I5=15, R03 R05">
+            <div class="dots"><div class="dot"></div><div class="dot"></div></div>
+          </div>
+
+          <!-- Row 2 (likelihood=2) -->
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">2</div>
+          <div class="heatmap-cell cell-low-med" title="L2×I1=2"></div>
+          <div class="heatmap-cell cell-low-med" title="L2×I2=4"></div>
+          <div class="heatmap-cell cell-low-med" title="L2×I3=6">
+            <div class="dots"><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="heatmap-cell cell-medium" title="L2×I4=8"></div>
+          <div class="heatmap-cell cell-high" title="L2×I5=10"></div>
+
+          <!-- Row 1 (likelihood=1) -->
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">1</div>
+          <div class="heatmap-cell cell-low" title="L1×I1=1"></div>
+          <div class="heatmap-cell cell-low" title="L1×I2=2"></div>
+          <div class="heatmap-cell cell-low-med" title="L1×I3=3"></div>
+          <div class="heatmap-cell cell-medium" title="L1×I4=4"></div>
+          <div class="heatmap-cell cell-high" title="L1×I5=5"></div>
+
+          <!-- X axis labels -->
+          <div></div>
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">1</div>
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">2</div>
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">3</div>
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">4</div>
+          <div style="display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);">5</div>
+        </div>
+        <div style="text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);margin-top:8px;letter-spacing:0.08em;text-transform:uppercase;">Impact →</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:8px;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Legend</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffcdd2;"></div>Critical (20-25)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffe0b2;"></div>High (15-19)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fff3cd;"></div>Medium (9-14)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#c8e6c9;"></div>Low (1-8)</div>
+        <div class="legend-item" style="margin-top:8px;"><div style="width:10px;height:10px;background:rgba(0,0,0,0.2);border-radius:50%;"></div>Risk plotted</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TREATMENT PLAN -->
+  <div class="section-header">
+    <span class="section-num">06 · Treatment Plan</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Priority remediation actions</h2>
+  <p>The following treatment actions address the three Critical and four High risks. Each action includes the responsible owner, target deadline, and success metric.</p>
+
+  <div class="treatment-card">
+    <div>
+      <h4>R01 · Unauthorized access to customer personal data</h4>
+      <p>Implement role-based access control (RBAC), enforce encryption at rest and in transit (AES-256 / TLS 1.3), and enable full access logging with alerting on anomalous behavior.</p>
+      <div class="treatment-meta">
+        <span class="meta-tag">Owner: IT Lead + DPO</span>
+        <span class="meta-tag">Deadline: 7 days</span>
+        <span class="meta-tag">ISO A.5.15 · A.8.3</span>
+        <span class="meta-tag">NIST: Protect</span>
+      </div>
+    </div>
+    <span class="treatment-status status-priority">Critical</span>
+  </div>
+
+  <div class="treatment-card">
+    <div>
+      <h4>R02 · AI model processing personal data without legal basis</h4>
+      <p>Conduct a Data Protection Impact Assessment (DPIA) for all AI features. Document lawful basis per GDPR Art. 6 for each processing activity. Perform EU AI Act Annex III conformity assessment and register system in the EU AI database if applicable.</p>
+      <div class="treatment-meta">
+        <span class="meta-tag">Owner: DPO + CTO</span>
+        <span class="meta-tag">Deadline: 14 days</span>
+        <span class="meta-tag">ISO A.5.31 · A.5.34</span>
+        <span class="meta-tag">GDPR Art. 35</span>
+      </div>
+    </div>
+    <span class="treatment-status status-priority">Critical</span>
+  </div>
+
+  <div class="treatment-card">
+    <div>
+      <h4>R03 · Absence of data breach response procedure</h4>
+      <p>Develop and test an Incident Response Plan. Define escalation paths, evidence preservation procedures, and a 72-hour GDPR notification workflow to supervisory authorities (BSI / DPA Berlin).</p>
+      <div class="treatment-meta">
+        <span class="meta-tag">Owner: CISO</span>
+        <span class="meta-tag">Deadline: 14 days</span>
+        <span class="meta-tag">ISO A.5.26 · A.5.28</span>
+        <span class="meta-tag">GDPR Art. 33</span>
+      </div>
+    </div>
+    <span class="treatment-status status-priority">Critical</span>
+  </div>
+
+  <div class="treatment-card">
+    <div>
+      <h4>R04 · Third-party vendors without valid DPA</h4>
+      <p>Audit all vendor contracts and identify processors lacking a signed DPA. Enforce DPA signing within 30 days. Document cross-border transfer mechanisms (SCCs, DPF, BCR) for any non-EU processors.</p>
+      <div class="treatment-meta">
+        <span class="meta-tag">Owner: Legal / DPO</span>
+        <span class="meta-tag">Deadline: 30 days</span>
+        <span class="meta-tag">ISO A.5.19 · A.5.20</span>
+        <span class="meta-tag">GDPR Art. 28</span>
+      </div>
+    </div>
+    <span class="treatment-status status-high">High</span>
+  </div>
+
+  <div class="treatment-card">
+    <div>
+      <h4>R06 · Absence of MFA on critical systems</h4>
+      <p>Enforce multi-factor authentication on all administrator accounts, cloud consoles (AWS, GCP), and remote access systems. Use phishing-resistant methods (FIDO2 / hardware keys) for privileged accounts.</p>
+      <div class="treatment-meta">
+        <span class="meta-tag">Owner: IT Lead</span>
+        <span class="meta-tag">Deadline: 14 days</span>
+        <span class="meta-tag">ISO A.5.17 · A.8.2</span>
+        <span class="meta-tag">NIST: Protect</span>
+      </div>
+    </div>
+    <span class="treatment-status status-high">High</span>
+  </div>
+
+  <!-- CONCLUSIONS -->
+  <div class="section-header">
+    <span class="section-num">07 · Conclusions & Next Steps</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Key findings and recommendations</h2>
+  <p>NovaTech GmbH presents a risk profile typical of early-stage AI startups operating in regulated European markets: strong product velocity but significant gaps in governance, data protection controls, and documented security processes. The convergence of GDPR, EU AI Act, and ISO 27001 obligations creates compounded regulatory exposure that must be addressed before any external audit or enterprise sales process.</p>
+  <p>The three Critical risks (R01, R02, R03) share a common root cause: the absence of a formal ISMS with documented ownership, defined controls, and tested procedures. Implementing these foundational elements will simultaneously reduce multiple risks across the register.</p>
+  <p>Recommended next steps are to establish a GRC steering committee with defined roles (CISO, DPO, IT Lead), complete the treatment actions for all Critical and High risks within 30 days, and initiate an ISO 27001 implementation project with a target certification timeline of 12-18 months.</p>
+
+</div>
+
+<!-- AUTHOR FOOTER -->
+<div class="author-footer">
+  <div class="author-info">
+    <h3>Ledy Florez</h3>
+    <p>GRC Specialist · ISO 27001 · GDPR · EU AI Act · Berlin, Germany</p>
+  </div>
+  <div class="author-links">
+    <a href="https://ledy89.github.io" class="author-link">← Portfolio</a>
+    <a href="https://linkedin.com/in/ledy-florez" class="author-link">LinkedIn</a>
+    <a href="https://tryhackme.com/p/Fly.2030" class="author-link">TryHackMe</a>
+  </div>
+</div>
+
+<script>
+  function filterRisks(level, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const rows = document.querySelectorAll('#risk-table tbody tr');
+    rows.forEach(row => {
+      if (level === 'all' || row.dataset.level === level) {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
