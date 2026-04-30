@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO 27001 Gap Analysis · NovaTech GmbH · Ledy Florez</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f1117; --ink-muted: #4a4f5e; --ink-faint: #8a909f;
+    --surface: #f7f6f2; --surface-2: #eeecea; --white: #ffffff;
+    --accent: #1a3a5c; --accent-mid: #2d6aa0; --rule: #d5d2cb;
+    --green: #0a5c3d; --green-bg: #e6f4ef; --green-mid: #1a7a52;
+    --amber: #7a4f00; --amber-bg: #fef3dc;
+    --red: #8b1a1a; --red-bg: #fceaea; --red-mid: #c0392b;
+    --orange: #8b4000; --orange-bg: #fef0e0;
+    --tag-bg: #e4edf5; --tag-text: #1a3a5c;
+  }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--surface); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; background: var(--white); border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-muted); letter-spacing: 0.05em; }
+  .nav-logo a { color: var(--accent-mid); text-decoration: none; }
+  .nav-meta { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-tag { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--tag-bg); color: var(--tag-text); padding: 3px 10px; border-radius: 3px; letter-spacing: 0.05em; }
+  .nav-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint); }
+
+  .hero { background: #0d2137; padding: 4rem 3rem 3rem; color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: 'ISO 27001'; position: absolute; right: -1rem; top: 50%; transform: translateY(-50%); font-family: 'DM Serif Display', serif; font-size: 10rem; color: rgba(255,255,255,0.03); pointer-events: none; white-space: nowrap; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 10px; }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 2.8rem; line-height: 1.1; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 2.5rem; max-width: 640px; }
+  .hero-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; max-width: 700px; }
+  .hero-meta-item { background: rgba(255,255,255,0.04); padding: 1rem 1.25rem; }
+  .hero-meta-item .label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .hero-meta-item .value { font-size: 13px; font-weight: 500; color: #fff; }
+
+  .content { max-width: 960px; margin: 0 auto; padding: 3rem 3rem 5rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; margin-top: 3.5rem; }
+  .section-header:first-child { margin-top: 0; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-mid); letter-spacing: 0.12em; white-space: nowrap; }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+  h2 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--ink); margin-bottom: 1rem; letter-spacing: -0.01em; }
+  p { color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.75; }
+  p:last-child { margin-bottom: 0; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .summary-box { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.25rem 1.5rem; position: relative; overflow: hidden; }
+  .summary-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .sb-blue::before { background: var(--accent-mid); } .sb-red::before { background: var(--red-mid); }
+  .sb-amber::before { background: #c47a00; } .sb-green::before { background: var(--green-mid); }
+  .summary-box h4 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.5rem; }
+  .summary-box .big { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; color: var(--ink); line-height: 1; margin-bottom: 4px; display: block; }
+  .summary-box .desc { font-size: 12px; color: var(--ink-muted); margin: 0; }
+
+  .maturity-scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 1.5rem 0; }
+  .maturity-level { background: var(--white); border: 1px solid var(--rule); border-radius: 6px; padding: 0.85rem; text-align: center; position: relative; overflow: hidden; }
+  .maturity-level::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .ml-0::before { background: #cbd5e0; } .ml-1::before { background: #fc8181; } .ml-2::before { background: #f6ad55; } .ml-3::before { background: #68d391; } .ml-4::before { background: #4299e1; }
+  .maturity-level .num { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; margin-bottom: 4px; display: block; }
+  .ml-0 .num { color: #718096; } .ml-1 .num { color: #c53030; } .ml-2 .num { color: #c05621; } .ml-3 .num { color: #276749; } .ml-4 .num { color: #2b6cb0; }
+  .maturity-level .title { font-size: 11px; font-weight: 600; color: var(--ink); margin-bottom: 4px; display: block; }
+  .maturity-level .desc { font-size: 11px; color: var(--ink-faint); line-height: 1.4; }
+
+  .domain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.5rem 0; }
+  .domain-card { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.5rem; cursor: pointer; transition: box-shadow 0.2s; }
+  .domain-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .domain-card.active { border-color: var(--accent-mid); }
+  .domain-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+  .domain-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+  .domain-score { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; padding: 3px 10px; border-radius: 3px; }
+  .score-low { background: var(--red-bg); color: var(--red); }
+  .score-partial { background: var(--orange-bg); color: var(--orange); }
+  .score-moderate { background: var(--amber-bg); color: var(--amber); }
+  .domain-card h3 { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 0.75rem; }
+  .progress-bar-wrap { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; margin-bottom: 0.5rem; }
+  .progress-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+  .bar-low { background: var(--red-mid); } .bar-partial { background: #c47a00; } .bar-moderate { background: #b8860b; }
+  .progress-label { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); }
+  .domain-controls { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--surface-2); font-size: 12px; color: var(--ink-faint); display: flex; gap: 1rem; }
+  .domain-controls span { display: flex; align-items: center; gap: 5px; }
+  .dot-sm { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+  .gap-filter-bar { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .gap-filter-btn { font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 14px; border-radius: 3px; border: 1px solid var(--rule); background: var(--white); color: var(--ink-muted); cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+  .gap-filter-btn:hover { border-color: var(--accent-mid); color: var(--accent-mid); }
+  .gap-filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .table-wrapper { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--white); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: var(--surface); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  tbody td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--surface-2); color: var(--ink-muted); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface); }
+  td.control-name { font-weight: 500; color: var(--ink); font-size: 13px; }
+  tr.hidden { display: none; }
+
+  .maturity-badge { display: inline-flex; align-items: center; gap: 5px; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 500; }
+  .mb-0 { background: #edf2f7; color: #4a5568; } .mb-1 { background: var(--red-bg); color: var(--red); }
+  .mb-2 { background: var(--orange-bg); color: var(--orange); } .mb-3 { background: var(--amber-bg); color: var(--amber); }
+  .domain-badge { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 3px; background: var(--tag-bg); color: var(--tag-text); white-space: nowrap; }
+
+  /* THIRD PARTY TABLE */
+  .tp-table-wrapper { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--white); margin-top: 1.25rem; }
+  .tp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tp-table thead th { background: var(--surface); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--rule); }
+  .tp-table tbody td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--surface-2); color: var(--ink-muted); vertical-align: middle; }
+  .tp-table tbody tr:last-child td { border-bottom: none; }
+  .tp-table tbody tr:hover td { background: var(--surface); }
+  .tp-name-cell { font-weight: 500; color: var(--ink); }
+  .tp-country { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); }
+  .tp-status { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 3px; display: inline-block; }
+  .tp-ok { background: var(--green-bg); color: var(--green); }
+  .tp-partial { background: var(--amber-bg); color: var(--amber); }
+  .tp-gap { background: var(--red-bg); color: var(--red); }
+
+  .rationale-box { background: var(--accent-light, #e8f0f8); border: 1px solid #c5d8ed; border-radius: 8px; padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+  .rationale-box p { color: var(--accent); margin: 0; font-size: 13px; line-height: 1.7; }
+  .rationale-box strong { font-weight: 600; }
+
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1.5rem; }
+  .roadmap-phase { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .phase-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); }
+  .phase-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .phase-1 .phase-label { color: var(--red-mid); } .phase-2 .phase-label { color: #c47a00; } .phase-3 .phase-label { color: var(--green-mid); }
+  .phase-header h4 { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .phase-header p { font-size: 12px; color: var(--ink-faint); margin: 0; font-family: 'DM Mono', monospace; }
+  .phase-items { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 8px; }
+  .phase-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+  .phase-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .phase-1 .phase-item::before { background: var(--red-mid); } .phase-2 .phase-item::before { background: #c47a00; } .phase-3 .phase-item::before { background: var(--green-mid); }
+
+  .author-footer { background: #0d2137; color: #fff; padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .author-info h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px; }
+  .author-info p { font-size: 13px; color: rgba(255,255,255,0.55); margin: 0; }
+  .author-links { display: flex; gap: 0.75rem; }
+  .author-link { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.75); text-decoration: none; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; transition: background 0.2s; }
+  .author-link:hover { background: rgba(255,255,255,0.08); }
+
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.5rem; } .hero { padding: 3rem 1.5rem 2rem; } .hero h1 { font-size: 2rem; }
+    .hero-meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 2rem 1.5rem 4rem; }
+    .domain-grid { grid-template-columns: 1fr; } .roadmap { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: 1fr 1fr; } .maturity-scale { grid-template-columns: repeat(3, 1fr); }
+    .author-footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><a href="https://ledy89.github.io">← ledy89.github.io</a> / gap-analysis</div>
+  <div class="nav-meta">
+    <span class="nav-tag">ISO 27001:2022 · GDPR · EU AI Act</span>
+    <span class="nav-date">Apr 2026</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">GRC Portfolio Project · Gap Analysis</div>
+  <h1>NovaTech GmbH<br><em>ISO 27001:2022 Gap Analysis</em></h1>
+  <p class="hero-sub">NovaTech GmbH is a simulated Berlin-based technology startup of 30 employees that develops an AI-powered customer analytics platform. The company processes personal data of EU residents and hosts its infrastructure on AWS. This assessment evaluates NovaTech's security posture against all 93 ISO/IEC 27001:2022 Annex A controls.</p>
+  <div class="hero-meta-grid">
+    <div class="hero-meta-item"><div class="label">Analyst</div><div class="value">Ledy Florez</div></div>
+    <div class="hero-meta-item"><div class="label">Standard</div><div class="value">ISO 27001:2022</div></div>
+    <div class="hero-meta-item"><div class="label">Controls assessed</div><div class="value">93 controls</div></div>
+    <div class="hero-meta-item"><div class="label">Overall maturity</div><div class="value">1.6 / 4.0</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- 01 EXECUTIVE SUMMARY -->
+  <div class="section-header">
+    <span class="section-num">01 · Executive Summary</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Assessment overview</h2>
+  <p>NovaTech GmbH is a simulated Berlin-based technology startup of 30 employees that develops an AI-powered customer analytics platform. The platform ingests behavioral, transactional, and engagement data from client websites and applications, applies machine learning models to generate churn predictions, customer segmentation, and actionable insights, and delivers them via a real-time dashboard. NovaTech acts as a data processor (GDPR Art. 28) for its clients — European mid-market companies — who remain the data controllers for their end users' personal data.</p>
+  <p>The company hosts its entire infrastructure on AWS eu-central-1 (Frankfurt) and relies exclusively on EU-based third-party suppliers for communications, document signing, scheduling, analytics, and email. Despite this privacy-conscious supplier strategy, the assessment reveals an overall maturity of 1.6 out of 4.0. Critical gaps are concentrated in AWS cloud configuration, access control, incident response, and ISMS documentation. These gaps create compounded regulatory exposure under GDPR, the EU AI Act (Annex III high-risk classification for AI-based profiling), and NIS2.</p>
+
+  <div class="summary-grid" style="margin-top:1.5rem;">
+    <div class="summary-box sb-blue"><h4>Controls assessed</h4><span class="big">93</span><p class="desc">ISO 27001:2022 Annex A</p></div>
+    <div class="summary-box sb-red"><h4>Not implemented</h4><span class="big">41</span><p class="desc">Maturity level 0 or 1</p></div>
+    <div class="summary-box sb-amber"><h4>Partially implemented</h4><span class="big">38</span><p class="desc">Maturity level 2</p></div>
+    <div class="summary-box sb-green"><h4>Implemented</h4><span class="big">14</span><p class="desc">Maturity level 3 or 4</p></div>
+  </div>
+
+  <!-- 02 MATURITY SCALE -->
+  <div class="section-header">
+    <span class="section-num">02 · Maturity Scale</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>How maturity was measured</h2>
+  <p>Each control was assessed on a 0-4 scale based on document review, process observation, and interviews with the CEO and Tech Lead. AWS-specific controls were also evaluated against the AWS Well-Architected Framework Security Pillar.</p>
+
+  <div class="maturity-scale">
+    <div class="maturity-level ml-0"><span class="num">0</span><span class="title">Non-existent</span><span class="desc">No control or awareness</span></div>
+    <div class="maturity-level ml-1"><span class="num">1</span><span class="title">Initial</span><span class="desc">Ad-hoc, undocumented</span></div>
+    <div class="maturity-level ml-2"><span class="num">2</span><span class="title">Developing</span><span class="desc">Partial, inconsistent</span></div>
+    <div class="maturity-level ml-3"><span class="num">3</span><span class="title">Defined</span><span class="desc">Documented, consistent</span></div>
+    <div class="maturity-level ml-4"><span class="num">4</span><span class="title">Managed</span><span class="desc">Measured, optimized</span></div>
+  </div>
+
+  <!-- 03 DOMAIN SCORECARDS -->
+  <div class="section-header">
+    <span class="section-num">03 · Domain Scorecards</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Maturity by ISO 27001 domain</h2>
+  <p>ISO 27001:2022 organizes controls across four themes. Click a domain card to filter the gap register below.</p>
+
+  <div class="domain-grid">
+    <div class="domain-card" onclick="filterByDomain('organizational', this)">
+      <div class="domain-header"><span class="domain-tag">A.5 · 37 controls</span><span class="domain-score score-low">28% compliant</span></div>
+      <h3>Organizational Controls</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar bar-low" style="width: 28%"></div></div>
+      <div class="progress-label"><span>Avg maturity: 1.1</span><span>28%</span></div>
+      <div class="domain-controls">
+        <span><span class="dot-sm" style="background:var(--red-mid)"></span>18 critical gaps</span>
+        <span><span class="dot-sm" style="background:#c47a00"></span>14 partial</span>
+        <span><span class="dot-sm" style="background:var(--green-mid)"></span>5 ok</span>
+      </div>
+    </div>
+    <div class="domain-card" onclick="filterByDomain('people', this)">
+      <div class="domain-header"><span class="domain-tag">A.6 · 8 controls</span><span class="domain-score score-low">25% compliant</span></div>
+      <h3>People Controls</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar bar-low" style="width: 25%"></div></div>
+      <div class="progress-label"><span>Avg maturity: 1.0</span><span>25%</span></div>
+      <div class="domain-controls">
+        <span><span class="dot-sm" style="background:var(--red-mid)"></span>5 critical gaps</span>
+        <span><span class="dot-sm" style="background:#c47a00"></span>2 partial</span>
+        <span><span class="dot-sm" style="background:var(--green-mid)"></span>1 ok</span>
+      </div>
+    </div>
+    <div class="domain-card" onclick="filterByDomain('physical', this)">
+      <div class="domain-header"><span class="domain-tag">A.7 · 14 controls</span><span class="domain-score score-moderate">50% compliant</span></div>
+      <h3>Physical Controls</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar bar-moderate" style="width: 50%"></div></div>
+      <div class="progress-label"><span>Avg maturity: 2.0</span><span>50%</span></div>
+      <div class="domain-controls">
+        <span><span class="dot-sm" style="background:var(--red-mid)"></span>4 critical gaps</span>
+        <span><span class="dot-sm" style="background:#c47a00"></span>6 partial</span>
+        <span><span class="dot-sm" style="background:var(--green-mid)"></span>4 ok</span>
+      </div>
+    </div>
+    <div class="domain-card" onclick="filterByDomain('technological', this)">
+      <div class="domain-header"><span class="domain-tag">A.8 · 34 controls</span><span class="domain-score score-partial">32% compliant</span></div>
+      <h3>Technological Controls</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar bar-partial" style="width: 32%"></div></div>
+      <div class="progress-label"><span>Avg maturity: 1.3</span><span>32%</span></div>
+      <div class="domain-controls">
+        <span><span class="dot-sm" style="background:var(--red-mid)"></span>14 critical gaps</span>
+        <span><span class="dot-sm" style="background:#c47a00"></span>16 partial</span>
+        <span><span class="dot-sm" style="background:var(--green-mid)"></span>4 ok</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 GAP REGISTER -->
+  <div class="section-header">
+    <span class="section-num">04 · Gap Register</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Priority control gaps</h2>
+  <p>Each finding is mapped to the relevant ISO 27001:2022 control and linked to assets, AWS services, and business processes identified in scope. Filter by domain using the buttons below.</p>
+
+  <div class="gap-filter-bar">
+    <button class="gap-filter-btn active" onclick="filterGaps('all', this)">All domains</button>
+    <button class="gap-filter-btn" onclick="filterGaps('organizational', this)">Organizational</button>
+    <button class="gap-filter-btn" onclick="filterGaps('people', this)">People</button>
+    <button class="gap-filter-btn" onclick="filterGaps('physical', this)">Physical</button>
+    <button class="gap-filter-btn" onclick="filterGaps('technological', this)">Technological</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="gap-table">
+      <thead>
+        <tr>
+          <th>Control</th>
+          <th>Gap identified</th>
+          <th>Domain</th>
+          <th>Maturity</th>
+          <th>Assets / AWS services affected</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ORGANIZATIONAL -->
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.1</span></td>
+          <td class="control-name">No information security policy exists</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>All business units · All AWS accounts</td>
+          <td>Draft and approve an IS Policy signed by CEO. Must address AWS cloud usage, shared responsibility model, and NovaTech's role as GDPR data processor.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.15</span></td>
+          <td class="control-name">No formal access control policy or RBAC model</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS IAM · Customer analytics platform · Client data ingestion pipeline</td>
+          <td>Define RBAC matrix per role (CEO, Tech Lead, Data Engineer, Client Success). Enforce least privilege on all AWS IAM policies. Remove wildcard (*) permissions immediately.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.19</span></td>
+          <td class="control-name">No formal supplier security policy</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>Stripe · Scrive · Whereby · Matomo Cloud · Piwik PRO · Brevo · Cal.com EU</td>
+          <td>Create supplier security policy. Conduct security questionnaire for all EU-based suppliers. Verify ISO 27001 or SOC 2 certifications where available.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.20</span></td>
+          <td class="control-name">DPAs not verified or fully executed for all processors</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-2">2 · Developing</span></td>
+          <td>AWS (as sub-processor) · Matomo Cloud · Piwik PRO · Brevo · Cal.com EU</td>
+          <td>Activate AWS Data Processing Addendum. Collect and archive signed DPAs from all suppliers. As a processor, NovaTech must also ensure its own DPAs with clients (controllers) are complete and up to date.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.23</span></td>
+          <td class="control-name">No cloud security policy for AWS usage</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>AWS S3 · AWS EC2 · AWS RDS · AWS Lambda · AWS SageMaker</td>
+          <td>Define cloud security policy: approved AWS services, configuration baselines, region restriction to eu-central-1 (Frankfurt) for GDPR data residency, and AWS shared responsibility boundaries.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.26</span></td>
+          <td class="control-name">No incident response procedure documented</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>AWS GuardDuty · AWS CloudTrail · Client data pipelines · GDPR Art. 33 obligation</td>
+          <td>Develop IRP with AWS GuardDuty as detection layer. As a data processor, NovaTech must notify affected controllers without undue delay upon detecting a breach. Define 24h internal escalation and 72h controller notification workflow.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.31</span></td>
+          <td class="control-name">Regulatory obligations not formally mapped</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>All processing activities · AWS eu-central-1 · AI analytics models (SageMaker)</td>
+          <td>Map all applicable regulations: GDPR Art. 28 (processor obligations), EU AI Act Annex III (AI-based profiling), NIS2 (digital infrastructure), TTDSG (cookies/tracking). Confirm eu-central-1 as primary region.</td>
+        </tr>
+        <tr data-domain="organizational">
+          <td><span class="domain-badge">A.5.34</span></td>
+          <td class="control-name">Privacy and PII protection controls undocumented</td>
+          <td><span class="domain-badge">Organizational</span></td>
+          <td><span class="maturity-badge mb-2">2 · Developing</span></td>
+          <td>AWS RDS (client behavioral data) · AWS S3 (raw analytics data) · AWS SageMaker (ML training datasets)</td>
+          <td>Enable AWS Macie for automated PII discovery across S3 and RDS. Enable encryption at rest (SSE-KMS) on all data stores. Complete RoPA documenting NovaTech's processing activities as a processor.</td>
+        </tr>
+
+        <!-- PEOPLE -->
+        <tr data-domain="people">
+          <td><span class="domain-badge">A.6.1</span></td>
+          <td class="control-name">No security screening process for new hires</td>
+          <td><span class="domain-badge">People</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>All business units · AWS IAM users · Client data access roles</td>
+          <td>Define pre-employment screening per role. Roles with access to client behavioral data or AWS admin require enhanced background vetting before credentials are issued.</td>
+        </tr>
+        <tr data-domain="people">
+          <td><span class="domain-badge">A.6.3</span></td>
+          <td class="control-name">No security awareness training program</td>
+          <td><span class="domain-badge">People</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>All staff · BYOD endpoints with AWS console access · Client data pipelines</td>
+          <td>Implement annual training covering AWS security basics, phishing simulation, GDPR processor obligations, and safe handling of client behavioral data.</td>
+        </tr>
+        <tr data-domain="people">
+          <td><span class="domain-badge">A.6.7</span></td>
+          <td class="control-name">BYOD in use with no formal policy or MDM</td>
+          <td><span class="domain-badge">People</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>BYOD laptops with AWS console access · Analytics dashboard · Client data access</td>
+          <td>Draft BYOD policy. Restrict AWS console access to managed devices via IAM condition keys. Evaluate MDM solution for remote wipe, disk encryption enforcement, and device compliance checks.</td>
+        </tr>
+        <tr data-domain="people">
+          <td><span class="domain-badge">A.6.5</span></td>
+          <td class="control-name">No offboarding procedure for access revocation</td>
+          <td><span class="domain-badge">People</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS IAM credentials · Analytics platform accounts · Scrive · Stripe · Whereby · Brevo</td>
+          <td>Define offboarding checklist: disable AWS IAM credentials and rotate affected access keys within 1 hour of departure. Revoke all SaaS sessions. Document and archive all access removed per GDPR accountability principle.</td>
+        </tr>
+
+        <!-- PHYSICAL -->
+        <tr data-domain="physical">
+          <td><span class="domain-badge">A.7.1</span></td>
+          <td class="control-name">Physical security of AWS data centers not documented in ISMS</td>
+          <td><span class="domain-badge">Physical</span></td>
+          <td><span class="maturity-badge mb-2">2 · Developing</span></td>
+          <td>AWS eu-central-1 (Frankfurt) · No on-premises servers</td>
+          <td>Document AWS shared responsibility model in ISMS scope. Reference AWS ISO 27001, SOC 2 Type II, BSI C5, and ENX certifications as physical security evidence. Explicitly note no on-premises infrastructure exists.</td>
+        </tr>
+        <tr data-domain="physical">
+          <td><span class="domain-badge">A.7.7</span></td>
+          <td class="control-name">No clean desk or clear screen policy</td>
+          <td><span class="domain-badge">Physical</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>BYOD laptops · Open office environment · AWS console sessions · Client data dashboards</td>
+          <td>Publish clean desk and clear screen policy. Enforce automatic screen lock after 5 minutes. Configure AWS console session timeout for idle sessions. Particularly important given access to client behavioral data.</td>
+        </tr>
+        <tr data-domain="physical">
+          <td><span class="domain-badge">A.7.9</span></td>
+          <td class="control-name">No unified asset inventory covering endpoints and AWS cloud assets</td>
+          <td><span class="domain-badge">Physical</span></td>
+          <td><span class="maturity-badge mb-2">2 · Developing</span></td>
+          <td>BYOD laptops · AWS EC2 instances · AWS RDS instances · AWS SageMaker endpoints · AWS Lambda functions</td>
+          <td>Create unified asset register. Enable AWS Config for automated cloud asset inventory and configuration drift detection. Include all BYOD endpoints and classify by data sensitivity (access to client data vs. internal only).</td>
+        </tr>
+
+        <!-- TECHNOLOGICAL -->
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.2</span></td>
+          <td class="control-name">AWS root account used for daily operations — no PAM</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS IAM root · AWS EC2 · AWS RDS · AWS SageMaker · Stripe API keys stored in code</td>
+          <td>Disable AWS root account for daily use immediately. Create individual IAM users with minimum required permissions. Migrate all API keys to AWS Secrets Manager. Enable MFA on root and all IAM users.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.5</span></td>
+          <td class="control-name">No MFA enforced on AWS console or SaaS accounts</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS IAM root · AWS console users · Stripe dashboard · Scrive admin · Brevo admin</td>
+          <td>Enforce MFA on AWS root immediately. Require MFA for all IAM users via IAM policy condition. Enable MFA on all SaaS admin accounts. Use FIDO2/hardware keys for roles with access to client data.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.8</span></td>
+          <td class="control-name">No vulnerability management for AWS workloads or ML models</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>AWS EC2 · AWS Lambda · AWS SageMaker model endpoints · Analytics platform application</td>
+          <td>Enable AWS Inspector for EC2 and Lambda. Define patch SLA: critical 24h, high 7 days. Use AWS Systems Manager Patch Manager. Include SageMaker model versioning and vulnerability review in ML lifecycle.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.9</span></td>
+          <td class="control-name">AWS S3 buckets storing client data not audited for public access</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS S3 (client behavioral data) · AWS S3 (ML training datasets) · AWS S3 (analytics exports)</td>
+          <td>Enable S3 Block Public Access at AWS account level immediately. Enable AWS Config rule s3-bucket-public-read-prohibited. Enable SSE-KMS encryption on all buckets containing client data. Enable S3 access logging.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.15</span></td>
+          <td class="control-name">No centralized logging — CloudTrail and CloudWatch not configured</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>AWS CloudTrail · AWS CloudWatch · AWS S3 access logs · Analytics platform audit logs</td>
+          <td>Enable AWS CloudTrail in all regions with log file integrity validation. Configure CloudWatch alarms for unauthorized API calls and unusual data access patterns. Set log retention to minimum 1 year. Enable VPC Flow Logs.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.20</span></td>
+          <td class="control-name">Email authentication not enforced across sending domains</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS SES (transactional email) · Brevo (marketing and client notifications) · Company domain DNS</td>
+          <td>Configure SPF, DKIM, and DMARC for all sending domains including AWS SES and Brevo. Set DMARC policy to reject. Monitor aggregate DMARC reports weekly. Coordinate with Brevo on DKIM alignment.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.23</span></td>
+          <td class="control-name">No WAF or network controls on AWS-hosted analytics platform</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-0">0 · Non-existent</span></td>
+          <td>AWS Application Load Balancer · AWS API Gateway (client data ingestion API) · Analytics dashboard</td>
+          <td>Enable AWS WAF on ALB with OWASP Core Rule Set. Enable AWS Shield Standard. Define security group rules with explicit deny for all non-required ingress. Rate-limit client data ingestion API endpoints.</td>
+        </tr>
+        <tr data-domain="technological">
+          <td><span class="domain-badge">A.8.25</span></td>
+          <td class="control-name">No secure development lifecycle for AI analytics models</td>
+          <td><span class="domain-badge">Technological</span></td>
+          <td><span class="maturity-badge mb-1">1 · Initial</span></td>
+          <td>AWS SageMaker (churn prediction and segmentation models) · Analytics platform · AWS CodePipeline</td>
+          <td>Adopt SSDLC: threat modeling (STRIDE) for ML pipeline, static analysis in CI/CD via CodePipeline, OWASP ZAP pre-release. Apply SageMaker model governance, model cards, and bias detection for EU AI Act Annex III compliance.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 05 THIRD PARTY -->
+  <div class="section-header">
+    <span class="section-num">05 · Third-Party Assessment</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Supplier and cloud security posture</h2>
+  <p>NovaTech GmbH has deliberately selected EU-based suppliers for all operational functions, significantly reducing cross-border data transfer risk and GDPR compliance complexity. AWS operates as the sole cloud infrastructure provider under the shared responsibility model. NovaTech is fully responsible for all configurations within its AWS environment.</p>
+  <p>Note: as a data processor itself, NovaTech must also maintain up-to-date Data Processing Agreements with each of its own clients (the data controllers), in addition to the DPAs it holds with the suppliers below.</p>
+
+  <div class="tp-table-wrapper">
+    <table class="tp-table">
+      <thead>
+        <tr>
+          <th>Supplier</th>
+          <th>Function</th>
+          <th>HQ Country</th>
+          <th>DPA Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tp-name-cell">AWS</td>
+          <td>Cloud infrastructure · Sole provider</td>
+          <td><span class="tp-country">🇩🇪 Germany (eu-central-1)</span></td>
+          <td><span class="tp-status tp-partial">Available · Not activated</span></td>
+          <td>Activate AWS Data Processing Addendum. AWS holds ISO 27001, SOC 2, BSI C5. Shared responsibility applies.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Stripe</td>
+          <td>Payment processing</td>
+          <td><span class="tp-country">🇮🇪 Ireland (EU entity)</span></td>
+          <td><span class="tp-status tp-ok">DPA in place · PCI-DSS</span></td>
+          <td>Stripe Ireland processes payments under GDPR. PCI-DSS compliance verified.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Scrive</td>
+          <td>eSignature (replaces DocuSign)</td>
+          <td><span class="tp-country">🇸🇪 Sweden</span></td>
+          <td><span class="tp-status tp-ok">DPA available · EU data only</span></td>
+          <td>Scrive stores all data in EU data centers. ISO 27001 certified. Strong GDPR compliance posture.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Whereby</td>
+          <td>Video conferencing (replaces Zoom)</td>
+          <td><span class="tp-country">🇳🇴 Norway (EEA)</span></td>
+          <td><span class="tp-status tp-ok">DPA available · EEA data residency</span></td>
+          <td>Data processed within EEA. No US data transfers. GDPR-compliant by design. Verify DPA execution.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Matomo Cloud</td>
+          <td>Web analytics (replaces Google Analytics)</td>
+          <td><span class="tp-country">🇫🇷 France / 🇩🇪 Germany</span></td>
+          <td><span class="tp-status tp-ok">DPA in place · EU servers</span></td>
+          <td>Data hosted in EU. No cross-border transfers. TTDSG-compliant. Recommended by German DPAs.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Piwik PRO</td>
+          <td>Product analytics (replaces Adobe Analytics)</td>
+          <td><span class="tp-country">🇩🇪 Germany / 🇵🇱 Poland</span></td>
+          <td><span class="tp-status tp-ok">DPA in place · EU servers</span></td>
+          <td>EU-based analytics with full GDPR compliance. ISO 27001 certified. Approved by German DPA guidance.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Brevo</td>
+          <td>Email marketing (replaces Acumbamail)</td>
+          <td><span class="tp-country">🇫🇷 France</span></td>
+          <td><span class="tp-status tp-partial">DPA available · Verify execution</span></td>
+          <td>EU-based email platform. Data processed in EU. Standard DPA available. Confirm signed copy is on file.</td>
+        </tr>
+        <tr>
+          <td class="tp-name-cell">Cal.com EU</td>
+          <td>Scheduling (replaces TidyCal)</td>
+          <td><span class="tp-country">🇩🇪 Germany</span></td>
+          <td><span class="tp-status tp-partial">DPA available · Verify execution</span></td>
+          <td>Open-source scheduling tool with EU self-hosted option on AWS eu-central-1. Confirm DPA for cloud version.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rationale-box" style="margin-top:1.25rem;">
+    <p><strong>Strategic note:</strong> NovaTech's deliberate selection of EU-based suppliers eliminates cross-border data transfer risk for all non-AWS operational tools and simplifies GDPR compliance significantly. This supplier strategy should be documented explicitly in the ISMS as a risk treatment decision and communicated to clients as part of NovaTech's data processor transparency obligations under GDPR Art. 28(3)(d).</p>
+  </div>
+
+  <!-- 06 ROADMAP -->
+  <div class="section-header">
+    <span class="section-num">06 · Implementation Roadmap</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Path to ISO 27001 readiness</h2>
+  <p>The three-phase roadmap integrates AWS-native security controls throughout to accelerate implementation. AWS services such as GuardDuty, CloudTrail, Macie, Inspector, WAF, Config, and Security Hub directly address multiple ISO 27001 Annex A controls. Target: ISO 27001 certification readiness in 12 months.</p>
+
+  <div class="roadmap">
+    <div class="roadmap-phase phase-1">
+      <div class="phase-header">
+        <div class="phase-label">Phase 1 · Months 1-3</div>
+        <h4>Foundation & Critical Gaps</h4>
+        <p>High urgency · Regulatory exposure</p>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Draft IS Policy covering AWS cloud usage, shared responsibility, and GDPR processor role</div>
+        <div class="phase-item">Enforce MFA on AWS root account and all IAM users. Disable root for daily operations</div>
+        <div class="phase-item">Enable AWS CloudTrail in all regions. Enable S3 Block Public Access at account level</div>
+        <div class="phase-item">Activate AWS Data Processing Addendum. Collect and archive DPAs from all suppliers</div>
+        <div class="phase-item">Develop Incident Response Plan with AWS GuardDuty and processor breach notification workflow</div>
+        <div class="phase-item">Enable AWS Macie for PII discovery. Enable SSE-KMS on all S3 buckets and RDS instances</div>
+        <div class="phase-item">Configure SPF, DKIM, DMARC for all domains including AWS SES and Brevo</div>
+      </div>
+    </div>
+    <div class="roadmap-phase phase-2">
+      <div class="phase-header">
+        <div class="phase-label">Phase 2 · Months 4-7</div>
+        <h4>Controls & Documentation</h4>
+        <p>Medium urgency · ISMS backbone</p>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Define RBAC matrix. Enforce least-privilege IAM policies across all AWS accounts</div>
+        <div class="phase-item">Enable AWS Inspector on EC2 and Lambda. Define and enforce patch SLAs</div>
+        <div class="phase-item">Enable AWS WAF on ALB with OWASP Core Rule Set. Rate-limit data ingestion API</div>
+        <div class="phase-item">Enable AWS Config for automated asset inventory and compliance drift detection</div>
+        <div class="phase-item">Implement security awareness training covering AWS, GDPR processor duties, and client data handling</div>
+        <div class="phase-item">Draft BYOD policy. Restrict AWS console to managed devices via IAM condition keys</div>
+        <div class="phase-item">Conduct DPIA and EU AI Act Annex III conformity assessment for churn prediction model</div>
+      </div>
+    </div>
+    <div class="roadmap-phase phase-3">
+      <div class="phase-header">
+        <div class="phase-label">Phase 3 · Months 8-12</div>
+        <h4>Maturity & Certification</h4>
+        <p>Optimization · Audit readiness</p>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item">Enable AWS Security Hub for centralized compliance posture across all controls</div>
+        <div class="phase-item">Conduct internal audit across all 93 controls with AWS-specific evidence collection</div>
+        <div class="phase-item">Perform AWS Well-Architected Review (Security Pillar) as supplementary audit evidence</div>
+        <div class="phase-item">Remediate remaining gaps. Conduct management review and approve risk treatment plan</div>
+        <div class="phase-item">Select certification body. Schedule Stage 1 (documentation) audit</div>
+        <div class="phase-item">Establish annual supplier security review and AWS configuration monitoring cadence</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 CONCLUSIONS -->
+  <div class="section-header">
+    <span class="section-num">07 · Conclusions</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Key findings</h2>
+  <p>NovaTech GmbH is a simulated Berlin-based technology startup of 30 employees that develops an AI-powered customer analytics platform. The company processes personal data of EU residents and hosts its infrastructure on AWS. The gap analysis reveals an overall maturity of 1.6/4.0, with critical exposures in AWS cloud configuration, access control, incident response, and ISMS documentation.</p>
+  <p>NovaTech's role as a GDPR data processor introduces specific obligations that go beyond standard controller compliance: it must maintain a RoPA of its own processing activities, notify controllers promptly upon detecting a breach, engage only sub-processors authorized by controllers, and demonstrate compliance on demand. None of these obligations are currently supported by documented procedures, which represents the highest regulatory risk in the assessment.</p>
+  <p>The deliberate selection of EU-based suppliers (Scrive, Whereby, Matomo, Piwik PRO, Brevo, Cal.com EU) is a well-reasoned GRC decision that eliminates cross-border transfer complexity and aligns with German DPA guidance. This should be formally documented as a risk treatment choice in the ISMS. Combined with AWS eu-central-1 as the exclusive infrastructure region, NovaTech has a strong data residency foundation to build upon. With the three-phase roadmap and AWS-native controls, ISO 27001 certification readiness is achievable within 12 months.</p>
+
+</div>
+
+<div class="author-footer">
+  <div class="author-info">
+    <h3>Ledy Florez</h3>
+    <p>GRC Specialist · ISO 27001 · GDPR · EU AI Act · Berlin, Germany</p>
+  </div>
+  <div class="author-links">
+    <a href="https://ledy89.github.io" class="author-link">← Portfolio</a>
+    <a href="https://linkedin.com/in/ledy-florez" class="author-link">LinkedIn</a>
+    <a href="https://tryhackme.com/p/Fly.2030" class="author-link">TryHackMe</a>
+  </div>
+</div>
+
+<script>
+  function filterGaps(domain, btn) {
+    document.querySelectorAll('.gap-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#gap-table tbody tr').forEach(row => {
+      if (domain === 'all' || row.dataset.domain === domain) row.classList.remove('hidden');
+      else row.classList.add('hidden');
+    });
+  }
+
+  function filterByDomain(domain, card) {
+    document.querySelectorAll('.domain-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    document.querySelectorAll('.gap-filter-btn').forEach(b => {
+      if (b.textContent.toLowerCase().includes(domain)) filterGaps(domain, b);
+    });
+    document.querySelector('#gap-table').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.progress-bar').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = w; }, 200);
+    });
+  });
+</script>
+</body>
+</html>
