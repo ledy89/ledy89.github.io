@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Breach Response Policy · NovaTech GmbH · Ledy Florez</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f1117; --ink-muted: #4a4f5e; --ink-faint: #8a909f;
+    --surface: #f7f6f2; --surface-2: #eeecea; --white: #ffffff;
+    --accent: #1a3a5c; --accent-mid: #2d6aa0; --rule: #d5d2cb;
+    --green: #0a5c3d; --green-bg: #e6f4ef; --green-mid: #1a7a52;
+    --amber: #7a4f00; --amber-bg: #fef3dc;
+    --red: #8b1a1a; --red-bg: #fceaea; --red-mid: #c0392b;
+    --orange: #8b4000; --orange-bg: #fef0e0;
+    --tag-bg: #e4edf5; --tag-text: #1a3a5c;
+  }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--surface); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; background: var(--white); border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-muted); letter-spacing: 0.05em; }
+  .nav-logo a { color: var(--accent-mid); text-decoration: none; }
+  .nav-meta { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-tag { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--red-bg); color: var(--red); padding: 3px 10px; border-radius: 3px; }
+  .nav-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint); }
+
+  .hero { background: #7a1a1a; padding: 4rem 3rem 3rem; color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: 'POL-003'; position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); font-family: 'DM Mono', monospace; font-size: 8rem; color: rgba(255,255,255,0.04); pointer-events: none; white-space: nowrap; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 10px; }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 2.8rem; line-height: 1.1; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 2.5rem; max-width: 640px; }
+  .hero-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; max-width: 700px; }
+  .hero-meta-item { background: rgba(255,255,255,0.04); padding: 1rem 1.25rem; }
+  .hero-meta-item .label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .hero-meta-item .value { font-size: 13px; font-weight: 500; color: #fff; }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 3rem 3rem 5rem; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.75rem; margin-top: 3rem; }
+  .section-header:first-child { margin-top: 0; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-mid); letter-spacing: 0.12em; white-space: nowrap; }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+  h2 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: 1rem; letter-spacing: -0.01em; }
+  h3 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; margin-top: 1.25rem; }
+  p { color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+
+  .doc-meta { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
+  .doc-meta table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .doc-meta td { padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--surface-2); }
+  .doc-meta tr:last-child td { border-bottom: none; }
+  .doc-meta td:first-child { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint); letter-spacing: 0.06em; text-transform: uppercase; width: 180px; background: var(--surface); }
+  .doc-meta td:last-child { color: var(--ink-muted); }
+
+  .approval-box { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  .approval-item { display: flex; flex-direction: column; gap: 4px; }
+  .approval-item .role { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+  .approval-item .name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .approval-item .sig { margin-top: 1.5rem; border-top: 1px solid var(--rule); padding-top: 0.5rem; font-size: 11px; color: var(--ink-faint); font-family: 'DM Mono', monospace; }
+
+  .policy-section { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.75rem; margin-bottom: 1.25rem; }
+  .policy-section-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent-mid); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+  .obligations-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .obligations-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--ink-muted); line-height: 1.6; padding: 0.65rem 1rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; }
+  .obligations-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-mid); margin-top: 7px; flex-shrink: 0; }
+  .obligations-list li.critical::before { background: var(--red-mid); }
+  .obligations-list li.green::before { background: var(--green-mid); }
+  .obligations-list li.amber::before { background: #c47a00; }
+
+  /* SEVERITY TABLE */
+  .severity-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+  .severity-card { border-radius: 8px; padding: 1.25rem; position: relative; overflow: hidden; }
+  .severity-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .sev-critical { background: var(--red-bg); border: 1px solid #f5c6cb; }
+  .sev-critical::before { background: var(--red-mid); }
+  .sev-high { background: var(--orange-bg); border: 1px solid #f5cba7; }
+  .sev-high::before { background: #c47a00; }
+  .sev-low { background: var(--amber-bg); border: 1px solid #fad7a0; }
+  .sev-low::before { background: #b8860b; }
+  .severity-card .sev-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .sev-critical .sev-label { color: var(--red); }
+  .sev-high .sev-label { color: var(--orange); }
+  .sev-low .sev-label { color: var(--amber); }
+  .severity-card h4 { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .severity-card p { font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.5; }
+
+  /* TIMELINE */
+  .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 1rem; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 28px; top: 0; bottom: 0; width: 2px; background: var(--rule); }
+  .timeline-item { display: grid; grid-template-columns: 60px 1fr; gap: 1rem; align-items: flex-start; padding-bottom: 1.5rem; position: relative; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; flex-shrink: 0; position: relative; z-index: 1; text-align: center; line-height: 1.2; }
+  .td-red { background: var(--red-bg); color: var(--red); border: 2px solid var(--red-mid); }
+  .td-orange { background: var(--orange-bg); color: var(--orange); border: 2px solid #c47a00; }
+  .td-amber { background: var(--amber-bg); color: var(--amber); border: 2px solid #b8860b; }
+  .td-green { background: var(--green-bg); color: var(--green); border: 2px solid var(--green-mid); }
+  .td-blue { background: var(--tag-bg); color: var(--accent); border: 2px solid var(--accent-mid); }
+  .timeline-content { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.25rem; }
+  .timeline-content h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .timeline-content p { font-size: 13px; color: var(--ink-muted); margin: 0; line-height: 1.6; }
+  .timeline-content ul { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+  .timeline-content ul li { font-size: 12px; color: var(--ink-muted); display: flex; gap: 8px; align-items: flex-start; }
+  .timeline-content ul li::before { content: '→'; color: var(--accent-mid); font-size: 11px; margin-top: 1px; flex-shrink: 0; }
+
+  /* CONTACTS TABLE */
+  .contacts-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 1rem; }
+  .contacts-table thead th { background: var(--surface); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid var(--rule); }
+  .contacts-table tbody td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--surface-2); color: var(--ink-muted); vertical-align: top; }
+  .contacts-table tbody tr:last-child td { border-bottom: none; }
+  .contacts-table tbody tr:hover td { background: var(--surface); }
+  .contact-name { font-weight: 500; color: var(--ink); }
+
+  /* NOTIFICATION TEMPLATE */
+  .notification-template { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-muted); line-height: 1.8; }
+  .notification-template .template-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1rem; }
+  .notification-template .field { color: var(--accent-mid); }
+
+  /* DECISION TREE */
+  .decision-box { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.25rem; margin-top: 1rem; }
+  .decision-question { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 1rem; padding: 1rem; background: var(--surface); border-radius: 6px; border-left: 3px solid var(--accent-mid); }
+  .decision-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .decision-branch { padding: 1rem; border-radius: 6px; }
+  .branch-yes { background: var(--red-bg); border: 1px solid #f5c6cb; }
+  .branch-no { background: var(--green-bg); border: 1px solid #c3e6cb; }
+  .branch-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; margin-bottom: 6px; }
+  .branch-yes .branch-label { color: var(--red); }
+  .branch-no .branch-label { color: var(--green); }
+  .decision-branch p { font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.5; }
+
+  .review-box { background: var(--accent); color: #fff; border-radius: 8px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+  .review-box p { color: rgba(255,255,255,0.8); margin: 0; font-size: 13px; }
+  .review-box .review-date { font-family: 'DM Mono', monospace; font-size: 13px; color: #fff; font-weight: 500; }
+
+  .related-docs { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .related-doc { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem 1rem; }
+  .related-doc .doc-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .related-doc .doc-ref { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); }
+  .related-doc a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-mid); text-decoration: none; }
+
+  .author-footer { background: #7a1a1a; color: #fff; padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .author-info h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px; }
+  .author-info p { font-size: 13px; color: rgba(255,255,255,0.55); margin: 0; }
+  .author-links { display: flex; gap: 0.75rem; }
+  .author-link { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.75); text-decoration: none; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; transition: background 0.2s; }
+  .author-link:hover { background: rgba(255,255,255,0.08); }
+
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.5rem; } .hero { padding: 3rem 1.5rem 2rem; } .hero h1 { font-size: 2rem; }
+    .hero-meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 2rem 1.5rem 4rem; }
+    .severity-grid { grid-template-columns: 1fr; } .decision-branches { grid-template-columns: 1fr; }
+    .approval-box { grid-template-columns: 1fr; } .author-footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><a href="https://ledy89.github.io">← ledy89.github.io</a> / policies / breach-response</div>
+  <div class="nav-meta">
+    <span class="nav-tag">POL-DBR-003 · GDPR Art. 33 · ISO 27001 A.5.26</span>
+    <span class="nav-date">Apr 2026</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">GRC Portfolio Project · Policy Writing</div>
+  <h1>NovaTech GmbH<br><em>Data Breach Response Policy</em></h1>
+  <p class="hero-sub">This policy defines NovaTech GmbH's procedure for detecting, containing, assessing, and notifying personal data breaches. As a data processor under GDPR Art. 28, NovaTech must notify affected data controllers without undue delay upon discovering a breach.</p>
+  <div class="hero-meta-grid">
+    <div class="hero-meta-item"><div class="label">Document ID</div><div class="value">POL-DBR-003</div></div>
+    <div class="hero-meta-item"><div class="label">Version</div><div class="value">1.0</div></div>
+    <div class="hero-meta-item"><div class="label">ISO Controls</div><div class="value">A.5.24 · A.5.26</div></div>
+    <div class="hero-meta-item"><div class="label">GDPR obligation</div><div class="value">Art. 33 · Art. 34</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- DOCUMENT CONTROL -->
+  <div class="section-header">
+    <span class="section-num">Document control</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="doc-meta">
+    <table>
+      <tr><td>Document title</td><td>Data Breach Response Policy</td></tr>
+      <tr><td>Document ID</td><td>POL-DBR-003</td></tr>
+      <tr><td>Version</td><td>1.0 — Initial release</td></tr>
+      <tr><td>Status</td><td>Approved</td></tr>
+      <tr><td>Issue date</td><td>April 30, 2026</td></tr>
+      <tr><td>Next review</td><td>April 30, 2027</td></tr>
+      <tr><td>Owner</td><td>GRC Specialist</td></tr>
+      <tr><td>Approved by</td><td>Chief Executive Officer (CEO)</td></tr>
+      <tr><td>Parent policy</td><td>POL-ISP-001 · Information Security Policy</td></tr>
+      <tr><td>ISO 27001 controls</td><td>A.5.24 · Incident management planning · A.5.26 · Response to incidents · A.5.28 · Collection of evidence</td></tr>
+      <tr><td>GDPR obligations</td><td>Art. 33 · Notification to supervisory authority · Art. 34 · Communication to data subjects · Art. 28 · Processor obligations</td></tr>
+    </table>
+  </div>
+
+  <div class="approval-box">
+    <div class="approval-item">
+      <span class="role">Prepared by</span>
+      <span class="name">GRC Specialist</span>
+      <div class="sig">Signature: _______________</div>
+    </div>
+    <div class="approval-item">
+      <span class="role">Reviewed by</span>
+      <span class="name">Tech Lead</span>
+      <div class="sig">Signature: _______________</div>
+    </div>
+    <div class="approval-item">
+      <span class="role">Approved by</span>
+      <span class="name">CEO / Founder</span>
+      <div class="sig">Signature: _______________</div>
+    </div>
+  </div>
+
+  <!-- 1. PURPOSE -->
+  <div class="section-header">
+    <span class="section-num">1 · Purpose</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 1</div>
+    <h2>Purpose</h2>
+    <p>This Data Breach Response Policy establishes NovaTech GmbH's procedure for identifying, containing, assessing, notifying, and documenting personal data breaches. It implements ISO/IEC 27001:2022 controls A.5.24 and A.5.26 and fulfills NovaTech's obligations under GDPR Articles 33 and 34.</p>
+    <p>As a data processor under GDPR Article 28, NovaTech processes personal behavioral data of EU residents on behalf of client data controllers. This role creates a specific and time-sensitive notification obligation: upon becoming aware of a personal data breach, NovaTech must notify the affected data controller without undue delay so the controller can fulfill its own 72-hour notification obligation to the supervisory authority. NovaTech's internal escalation target is therefore 24 hours from detection, not 72 hours.</p>
+  </div>
+
+  <!-- 2. SCOPE -->
+  <div class="section-header">
+    <span class="section-num">2 · Scope</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 2</div>
+    <h2>Scope and definitions</h2>
+    <p>This policy applies to all personal data processed by NovaTech GmbH in its role as a data processor, including client behavioral data, user registration data, and any other personal data stored in AWS eu-central-1 infrastructure or processed through NovaTech's analytics platform.</p>
+    <h3>Definition of a personal data breach</h3>
+    <p>Under GDPR Art. 4(12), a personal data breach is a breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorized disclosure of, or access to, personal data transmitted, stored, or otherwise processed. This includes:</p>
+    <ul class="obligations-list">
+      <li>Unauthorized access to client behavioral data in AWS S3, RDS, or the analytics platform</li>
+      <li>Accidental deletion or corruption of client personal data without backup recovery</li>
+      <li>Ransomware or malware encrypting systems containing client personal data</li>
+      <li>Misconfigured AWS S3 bucket exposing client data to public access</li>
+      <li>Unauthorized disclosure of client data to a third party not authorized in the DPA</li>
+      <li>Loss or theft of a BYOD device containing unencrypted client personal data</li>
+      <li>AWS IAM credential compromise leading to unauthorized access to client data</li>
+    </ul>
+  </div>
+
+  <!-- 3. SEVERITY -->
+  <div class="section-header">
+    <span class="section-num">3 · Breach Severity Classification</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 3</div>
+    <h2>Breach severity levels</h2>
+    <p>All suspected breaches must be classified immediately upon detection. Severity determines the speed and scope of the response. When in doubt, always classify at the higher severity level.</p>
+    <div class="severity-grid">
+      <div class="severity-card sev-critical">
+        <div class="sev-label">Critical</div>
+        <h4>Immediate response required</h4>
+        <p>Large-scale unauthorized access to client personal data. Ransomware on production systems. Public S3 bucket exposure of client data. AWS root account compromise. Estimated data subjects affected: 1,000+.</p>
+      </div>
+      <div class="severity-card sev-high">
+        <div class="sev-label">High</div>
+        <h4>Response within 2 hours</h4>
+        <p>Unauthorized access to a subset of client data. IAM credential compromise with evidence of data access. Loss of encrypted BYOD device with client data. Estimated data subjects affected: 100–999.</p>
+      </div>
+      <div class="severity-card sev-low">
+        <div class="sev-label">Low</div>
+        <h4>Response within 8 hours</h4>
+        <p>Accidental internal disclosure of client data to unauthorized NovaTech employee. Loss of encrypted device with no evidence of data access. Small-scale unintentional data exposure. Estimated data subjects affected: fewer than 100.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. RESPONSE TEAM -->
+  <div class="section-header">
+    <span class="section-num">4 · Response Team</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 4</div>
+    <h2>Incident response team and contacts</h2>
+    <p>The following individuals form NovaTech's breach response team. All must be reachable 24/7 for Critical and High severity incidents. Contact details must be kept current and reviewed quarterly.</p>
+    <table class="contacts-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Person</th>
+          <th>Responsibilities during a breach</th>
+          <th>Escalation order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="contact-name">GRC Specialist</td>
+          <td>GRC Specialist</td>
+          <td>Leads the response. Coordinates containment, assessment, and notification. Maintains the incident log. Drafts controller and regulatory notifications.</td>
+          <td>First contact</td>
+        </tr>
+        <tr>
+          <td class="contact-name">Tech Lead</td>
+          <td>Tech Lead</td>
+          <td>Executes technical containment on AWS. Preserves evidence via CloudTrail. Identifies affected systems, data volumes, and access logs.</td>
+          <td>Second contact</td>
+        </tr>
+        <tr>
+          <td class="contact-name">CEO</td>
+          <td>CEO / Founder</td>
+          <td>Authorizes controller and regulatory notifications. Makes business continuity decisions. Engages external legal counsel if required.</td>
+          <td>Third contact · Decision authority</td>
+        </tr>
+        <tr>
+          <td class="contact-name">Supervisory authority</td>
+          <td>Landesbeauftragte für Datenschutz Baden-Württemberg</td>
+          <td>Notified by the data controller (not NovaTech directly) within 72 hours of the controller becoming aware. NovaTech supports the controller in this process.</td>
+          <td>External · Via controller</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. NOTIFICATION DECISION -->
+  <div class="section-header">
+    <span class="section-num">5 · Notification Decision</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 5</div>
+    <h2>Does this breach require notification?</h2>
+    <p>Not all security incidents are notifiable breaches. Use the decision framework below to determine notification obligations. When in doubt, notify. Failing to notify a controller of a qualifying breach is a GDPR violation.</p>
+    <div class="decision-box">
+      <div class="decision-question">Q1: Has personal data been accessed, disclosed, altered, destroyed, or lost without authorization?</div>
+      <div class="decision-branches">
+        <div class="decision-branch branch-yes">
+          <div class="branch-label">YES → Continue to Q2</div>
+          <p>This is a personal data breach. Proceed with the response procedure and assess notification obligations.</p>
+        </div>
+        <div class="decision-branch branch-no">
+          <div class="branch-label">NO → Security incident only</div>
+          <p>Document as a security incident. No GDPR notification required. Monitor and apply lessons learned.</p>
+        </div>
+      </div>
+    </div>
+    <div class="decision-box" style="margin-top:1rem;">
+      <div class="decision-question">Q2: Is the breach likely to result in a risk to the rights and freedoms of natural persons?</div>
+      <div class="decision-branches">
+        <div class="decision-branch branch-yes">
+          <div class="branch-label">YES → Notify the controller</div>
+          <p>Notify the affected data controller without undue delay and within 24 hours of NovaTech becoming aware. The controller will then assess supervisory authority notification.</p>
+        </div>
+        <div class="decision-branch branch-no">
+          <div class="branch-label">NO → Document and monitor</div>
+          <p>No notification required but the breach must be documented in the incident register per GDPR Art. 33(5). Review classification if new information emerges.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. RESPONSE TIMELINE -->
+  <div class="section-header">
+    <span class="section-num">6 · Response Timeline</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 6</div>
+    <h2>Response procedure and timeline</h2>
+    <p>The following timeline applies from the moment a breach is detected or suspected. All times are maximum targets. Critical incidents should move faster than the stated deadlines.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot td-red">T+0<br>Detect</div>
+        <div class="timeline-content">
+          <h4>Detection and initial report</h4>
+          <p>Any employee, system alert, or third party reports a suspected breach. The person detecting the incident must notify the GRC Specialist immediately via direct message or phone. Do not attempt to investigate independently.</p>
+          <ul>
+            <li>Note the time of detection and all known facts</li>
+            <li>Do not delete, modify, or power off affected systems</li>
+            <li>If AWS GuardDuty or CloudWatch alerts are the source, capture the full alert details</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot td-red">T+1h<br>Assess</div>
+        <div class="timeline-content">
+          <h4>Initial assessment and severity classification</h4>
+          <p>GRC Specialist and Tech Lead assess the incident. Classify severity (Critical, High, Low). Confirm whether personal data is involved and estimate the scope.</p>
+          <ul>
+            <li>Review AWS CloudTrail logs for unauthorized API calls</li>
+            <li>Check S3 access logs for unauthorized data access or downloads</li>
+            <li>Identify which client data may be affected and estimate number of data subjects</li>
+            <li>Open the incident register and assign an incident ID</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot td-orange">T+2h<br>Contain</div>
+        <div class="timeline-content">
+          <h4>Containment</h4>
+          <p>Tech Lead executes technical containment to stop the breach from spreading. GRC Specialist documents all actions taken.</p>
+          <ul>
+            <li>Revoke compromised AWS IAM credentials and rotate affected access keys immediately</li>
+            <li>Enable S3 Block Public Access if a misconfigured bucket is the source</li>
+            <li>Isolate affected EC2 instances by modifying security group rules</li>
+            <li>Preserve all AWS CloudTrail logs and GuardDuty findings as evidence — do not delete</li>
+            <li>If a BYOD device is lost or stolen, initiate remote data verification procedure</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot td-red">T+24h<br>Notify</div>
+        <div class="timeline-content">
+          <h4>Controller notification</h4>
+          <p>GRC Specialist drafts and sends breach notification to all affected data controllers. This is NovaTech's primary notification obligation as a data processor under GDPR Art. 28(3)(f). The controller then has 72 hours from their own awareness to notify the supervisory authority.</p>
+          <ul>
+            <li>Send notification to the designated contact in the client's DPA</li>
+            <li>Include all information known at this stage — incomplete notifications are acceptable under GDPR Art. 33(4)</li>
+            <li>CEO must approve the notification before sending</li>
+            <li>Document the exact time of notification in the incident register</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot td-amber">T+72h<br>Update</div>
+        <div class="timeline-content">
+          <h4>Follow-up notification and full assessment</h4>
+          <p>Send updated notification to controllers with full assessment findings if not all information was available at T+24h. Support controllers in responding to any supervisory authority inquiries.</p>
+          <ul>
+            <li>Provide confirmed number of affected data subjects and categories of data</li>
+            <li>Confirm containment measures taken and their effectiveness</li>
+            <li>Describe measures taken or proposed to address the breach and mitigate future risk</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot td-green">T+30d<br>Review</div>
+        <div class="timeline-content">
+          <h4>Post-incident review and remediation</h4>
+          <p>GRC Specialist leads a post-incident review within 30 days. Identify root cause, control failures, and lessons learned. Update the risk register and implement remediation actions.</p>
+          <ul>
+            <li>Document root cause analysis in the incident register</li>
+            <li>Update the risk register to reflect any new or changed risks identified</li>
+            <li>Implement and track remediation actions with defined owners and deadlines</li>
+            <li>Report findings to CEO and update relevant policies if required</li>
+            <li>Close the incident in the register once all remediation actions are verified</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. NOTIFICATION TEMPLATE -->
+  <div class="section-header">
+    <span class="section-num">7 · Controller Notification Template</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 7</div>
+    <h2>Controller notification template</h2>
+    <p>Use the following template for the initial notification to affected data controllers. Customize with the specific facts of the incident. Incomplete information should be noted as "under investigation" — do not delay notification to gather all facts.</p>
+    <div class="notification-template">
+      <div class="template-label">Controller notification template · POL-DBR-003</div>
+      <p><span class="field">Subject:</span> [URGENT] Personal Data Breach Notification — NovaTech GmbH — Incident [ID]</p>
+      <br>
+      <p>Dear <span class="field">[Controller Contact Name]</span>,</p>
+      <br>
+      <p>In accordance with our Data Processing Agreement dated <span class="field">[DPA date]</span> and GDPR Article 28(3)(f), we are notifying you of a personal data breach affecting data processed on your behalf.</p>
+      <br>
+      <p><span class="field">1. Nature of the breach:</span><br>
+      <span class="field">[Describe what happened: unauthorized access / accidental disclosure / data loss / etc.]</span></p>
+      <br>
+      <p><span class="field">2. Categories of personal data affected:</span><br>
+      <span class="field">[e.g. behavioral data, user identifiers, email addresses]</span></p>
+      <br>
+      <p><span class="field">3. Approximate number of data subjects affected:</span><br>
+      <span class="field">[Number or range, or "under investigation"]</span></p>
+      <br>
+      <p><span class="field">4. Likely consequences of the breach:</span><br>
+      <span class="field">[Describe potential impact on data subjects]</span></p>
+      <br>
+      <p><span class="field">5. Measures taken or proposed to address the breach:</span><br>
+      <span class="field">[Describe containment actions taken: IAM credential revocation, S3 access restriction, etc.]</span></p>
+      <br>
+      <p><span class="field">6. NovaTech contact for further information:</span><br>
+      GRC Specialist · <span class="field">[email]</span> · <span class="field">[phone]</span></p>
+      <br>
+      <p>We will provide a follow-up notification within 72 hours of this message with full assessment findings. Please confirm receipt of this notification.</p>
+      <br>
+      <p>Regards,<br>GRC Specialist<br>NovaTech GmbH</p>
+    </div>
+  </div>
+
+  <!-- 8. EVIDENCE PRESERVATION -->
+  <div class="section-header">
+    <span class="section-num">8 · Evidence Preservation</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 8</div>
+    <h2>Evidence preservation on AWS</h2>
+    <p>Evidence must be preserved from the moment a breach is suspected. Deleting or modifying evidence can constitute a GDPR violation and may create legal liability. The Tech Lead is responsible for evidence preservation on AWS infrastructure.</p>
+    <ul class="obligations-list">
+      <li class="critical">Do not disable, delete, or modify AWS CloudTrail logs under any circumstances during an active incident. CloudTrail is the primary evidence source for all AWS activity.</li>
+      <li class="critical">Do not power off or terminate affected EC2 instances before capturing a snapshot. Memory forensics may be required for certain incident types.</li>
+      <li>Export and archive AWS GuardDuty findings, CloudWatch alarms, and VPC Flow Logs related to the incident to a dedicated S3 bucket with Object Lock enabled.</li>
+      <li>Capture S3 server access logs for all buckets potentially involved in the breach.</li>
+      <li>Document the chain of custody for all evidence: who collected it, when, from which AWS service, and where it is stored.</li>
+      <li class="green">Set the evidence S3 bucket retention policy to a minimum of 3 years or as required by applicable law, whichever is longer.</li>
+    </ul>
+  </div>
+
+  <!-- 9. INCIDENT REGISTER -->
+  <div class="section-header">
+    <span class="section-num">9 · Incident Register</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 9</div>
+    <h2>Incident register requirements</h2>
+    <p>GDPR Art. 33(5) requires data processors to document all personal data breaches, regardless of whether notification was required. The incident register must capture the following information for every incident:</p>
+    <ul class="obligations-list">
+      <li>Incident ID, date and time of detection, and date and time of containment</li>
+      <li>Description of the breach: nature, systems affected, AWS services involved</li>
+      <li>Categories and approximate number of personal data records affected</li>
+      <li>Categories and approximate number of data subjects affected</li>
+      <li>Severity classification and rationale</li>
+      <li>Containment actions taken and by whom</li>
+      <li>Date and time of controller notification and name of controller contact notified</li>
+      <li>Root cause analysis findings and remediation actions with owners and deadlines</li>
+      <li>Final incident closure date and sign-off by GRC Specialist and CEO</li>
+    </ul>
+    <p style="margin-top:1rem;">The incident register must be retained for a minimum of 3 years and made available to data controllers upon request as part of NovaTech's accountability obligations under GDPR Art. 5(2).</p>
+  </div>
+
+  <!-- 10. REVIEW -->
+  <div class="section-header">
+    <span class="section-num">10 · Review & Maintenance</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 10</div>
+    <h2>Policy review</h2>
+    <p>This policy is reviewed annually or immediately following a significant security incident or change in regulatory requirements. The response procedure must be tested at least once per year through a tabletop exercise simulating a breach scenario.</p>
+    <div class="review-box">
+      <div>
+        <p>Current version: <strong>1.0</strong> · Approved: April 30, 2026</p>
+        <p>Next scheduled review: <strong>April 30, 2027</strong></p>
+      </div>
+      <div class="review-date">POL-DBR-003</div>
+    </div>
+  </div>
+
+  <!-- 11. RELATED DOCUMENTS -->
+  <div class="section-header">
+    <span class="section-num">11 · Related Documents</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-DBR-003 · Section 11</div>
+    <h2>Related policies and documents</h2>
+    <div class="related-docs">
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Information Security Policy</div>
+          <div class="doc-ref">POL-ISP-001 · Parent document</div>
+        </div>
+        <a href="https://ledy89.github.io/information-security-policy.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Acceptable Use Policy</div>
+          <div class="doc-ref">POL-AUP-002 · A.5.10 · A.6.7</div>
+        </div>
+        <a href="https://ledy89.github.io/acceptable-use-policy.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">ISO 27001 Gap Analysis</div>
+          <div class="doc-ref">Reference document · A.5.24 · A.5.26 maturity 0</div>
+        </div>
+        <a href="https://ledy89.github.io/gap-analysis.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Risk Assessment</div>
+          <div class="doc-ref">Reference document · R03 · Absence of breach response procedure</div>
+        </div>
+        <a href="https://ledy89.github.io/risk-assessment.html">View →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="author-footer">
+  <div class="author-info">
+    <h3>Ledy Florez</h3>
+    <p>GRC Specialist · ISO 27001 · GDPR · EU AI Act · Berlin, Germany</p>
+  </div>
+  <div class="author-links">
+    <a href="https://ledy89.github.io" class="author-link">← Portfolio</a>
+    <a href="https://ledy89.github.io/information-security-policy.html" class="author-link">IS Policy</a>
+    <a href="https://linkedin.com/in/ledy-florez" class="author-link">LinkedIn</a>
+  </div>
+</div>
+
+</body>
+</html>
