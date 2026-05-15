@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Security Policy · NovaTech GmbH · Ledy Florez</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f1117; --ink-muted: #4a4f5e; --ink-faint: #8a909f;
+    --surface: #f7f6f2; --surface-2: #eeecea; --white: #ffffff;
+    --accent: #1a3a5c; --accent-mid: #2d6aa0; --rule: #d5d2cb;
+    --green: #0a5c3d; --green-bg: #e6f4ef; --green-mid: #1a7a52;
+    --amber: #7a4f00; --amber-bg: #fef3dc;
+    --red: #8b1a1a; --red-bg: #fceaea;
+    --tag-bg: #e4edf5; --tag-text: #1a3a5c;
+  }
+  body { font-family: 'Instrument Sans', sans-serif; background: var(--surface); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; background: var(--white); border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-muted); letter-spacing: 0.05em; }
+  .nav-logo a { color: var(--accent-mid); text-decoration: none; }
+  .nav-meta { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-tag { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--tag-bg); color: var(--tag-text); padding: 3px 10px; border-radius: 3px; }
+  .nav-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint); }
+
+  /* HERO */
+  .hero { background: var(--accent); padding: 4rem 3rem 3rem; color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: 'POL-001'; position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); font-family: 'DM Mono', monospace; font-size: 8rem; color: rgba(255,255,255,0.04); pointer-events: none; white-space: nowrap; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 10px; }
+  .hero-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 2.8rem; line-height: 1.1; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: italic; color: rgba(255,255,255,0.5); }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 2.5rem; max-width: 640px; }
+  .hero-meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; max-width: 700px; }
+  .hero-meta-item { background: rgba(255,255,255,0.04); padding: 1rem 1.25rem; }
+  .hero-meta-item .label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .hero-meta-item .value { font-size: 13px; font-weight: 500; color: #fff; }
+
+  /* CONTENT */
+  .content { max-width: 860px; margin: 0 auto; padding: 3rem 3rem 5rem; }
+
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.75rem; margin-top: 3rem; }
+  .section-header:first-child { margin-top: 0; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-mid); letter-spacing: 0.12em; white-space: nowrap; }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+
+  h2 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: 1rem; letter-spacing: -0.01em; }
+  h3 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; margin-top: 1.25rem; }
+  p { color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+
+  /* DOCUMENT META TABLE */
+  .doc-meta { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
+  .doc-meta table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .doc-meta td { padding: 0.7rem 1.25rem; border-bottom: 1px solid var(--surface-2); }
+  .doc-meta tr:last-child td { border-bottom: none; }
+  .doc-meta td:first-child { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint); letter-spacing: 0.06em; text-transform: uppercase; width: 180px; background: var(--surface); }
+  .doc-meta td:last-child { color: var(--ink-muted); }
+
+  /* APPROVAL BOX */
+  .approval-box { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+  .approval-item { display: flex; flex-direction: column; gap: 4px; }
+  .approval-item .role { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+  .approval-item .name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .approval-item .sig { margin-top: 1.5rem; border-top: 1px solid var(--rule); padding-top: 0.5rem; font-size: 11px; color: var(--ink-faint); font-family: 'DM Mono', monospace; }
+
+  /* POLICY SECTIONS */
+  .policy-section { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 1.75rem; margin-bottom: 1.25rem; }
+  .policy-section-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent-mid); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+  /* PRINCIPLES GRID */
+  .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .principle-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 1.25rem; position: relative; overflow: hidden; }
+  .principle-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-mid); }
+  .principle-card.green::before { background: var(--green-mid); }
+  .principle-card.amber::before { background: #c47a00; }
+  .principle-card.red::before { background: #c0392b; }
+  .principle-card h4 { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+  .principle-card p { font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.6; }
+
+  /* ROLES TABLE */
+  .roles-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 1rem; }
+  .roles-table thead th { background: var(--surface); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid var(--rule); }
+  .roles-table tbody td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--surface-2); color: var(--ink-muted); vertical-align: top; line-height: 1.5; }
+  .roles-table tbody tr:last-child td { border-bottom: none; }
+  .roles-table tbody tr:hover td { background: var(--surface); }
+  .role-name { font-weight: 500; color: var(--ink); white-space: nowrap; }
+
+  /* OBLIGATIONS LIST */
+  .obligations-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .obligations-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--ink-muted); line-height: 1.6; padding: 0.65rem 1rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; }
+  .obligations-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-mid); margin-top: 7px; flex-shrink: 0; }
+  .obligations-list li.critical::before { background: #c0392b; }
+  .obligations-list li.green::before { background: var(--green-mid); }
+
+  /* REGULATORY BOX */
+  .reg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+  .reg-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 1rem; }
+  .reg-card .reg-name { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+  .reg-card .reg-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+
+  /* CLASSIFICATION TABLE */
+  .class-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 1rem; }
+  .class-table thead th { background: var(--surface); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid var(--rule); }
+  .class-table tbody td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--surface-2); color: var(--ink-muted); vertical-align: top; }
+  .class-table tbody tr:last-child td { border-bottom: none; }
+
+  .class-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 3px; font-weight: 500; }
+  .cb-public { background: var(--green-bg); color: var(--green); }
+  .cb-internal { background: var(--tag-bg); color: var(--tag-text); }
+  .cb-confidential { background: var(--amber-bg); color: var(--amber); }
+  .cb-restricted { background: var(--red-bg); color: var(--red); }
+
+  /* VIOLATIONS */
+  .violations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .violation-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 1rem; }
+  .violation-card .severity { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 3px; display: inline-block; margin-bottom: 8px; }
+  .sev-critical { background: var(--red-bg); color: var(--red); }
+  .sev-high { background: var(--amber-bg); color: var(--amber); }
+  .violation-card h4 { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .violation-card p { font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.5; }
+
+  /* REVIEW BOX */
+  .review-box { background: var(--accent); color: #fff; border-radius: 8px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+  .review-box p { color: rgba(255,255,255,0.8); margin: 0; font-size: 13px; }
+  .review-box .review-date { font-family: 'DM Mono', monospace; font-size: 13px; color: #fff; font-weight: 500; }
+
+  /* RELATED DOCS */
+  .related-docs { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .related-doc { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem 1rem; }
+  .related-doc .doc-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .related-doc .doc-ref { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faint); }
+  .related-doc a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-mid); text-decoration: none; }
+
+  .author-footer { background: var(--accent); color: #fff; padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .author-info h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px; }
+  .author-info p { font-size: 13px; color: rgba(255,255,255,0.55); margin: 0; }
+  .author-links { display: flex; gap: 0.75rem; }
+  .author-link { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.75); text-decoration: none; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; transition: background 0.2s; }
+  .author-link:hover { background: rgba(255,255,255,0.08); }
+
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.5rem; } .hero { padding: 3rem 1.5rem 2rem; } .hero h1 { font-size: 2rem; }
+    .hero-meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 2rem 1.5rem 4rem; }
+    .principles-grid { grid-template-columns: 1fr; } .reg-grid { grid-template-columns: 1fr; }
+    .violations-grid { grid-template-columns: 1fr; } .approval-box { grid-template-columns: 1fr; }
+    .author-footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><a href="https://ledy89.github.io">← ledy89.github.io</a> / policies / information-security</div>
+  <div class="nav-meta">
+    <span class="nav-tag">POL-ISP-001 · ISO 27001:2022 A.5.1</span>
+    <span class="nav-date">Apr 2026</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">GRC Portfolio Project · Policy Writing</div>
+  <h1>NovaTech GmbH<br><em>Information Security Policy</em></h1>
+  <p class="hero-sub">The foundational information security policy for NovaTech GmbH, a simulated Berlin-based AI-powered customer analytics platform. This policy satisfies ISO/IEC 27001:2022 control A.5.1 and establishes the governance framework for all information security activities.</p>
+  <div class="hero-meta-grid">
+    <div class="hero-meta-item"><div class="label">Document ID</div><div class="value">POL-ISP-001</div></div>
+    <div class="hero-meta-item"><div class="label">Version</div><div class="value">1.0</div></div>
+    <div class="hero-meta-item"><div class="label">ISO Control</div><div class="value">A.5.1</div></div>
+    <div class="hero-meta-item"><div class="label">Review cycle</div><div class="value">Annual</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- DOCUMENT METADATA -->
+  <div class="section-header">
+    <span class="section-num">Document control</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="doc-meta">
+    <table>
+      <tr><td>Document title</td><td>Information Security Policy</td></tr>
+      <tr><td>Document ID</td><td>POL-ISP-001</td></tr>
+      <tr><td>Version</td><td>1.0 — Initial release</td></tr>
+      <tr><td>Status</td><td>Approved</td></tr>
+      <tr><td>Issue date</td><td>April 30, 2026</td></tr>
+      <tr><td>Next review</td><td>April 30, 2027</td></tr>
+      <tr><td>Owner</td><td>Chief Executive Officer (CEO)</td></tr>
+      <tr><td>Author</td><td>GRC Specialist</td></tr>
+      <tr><td>ISO 27001 control</td><td>A.5.1 — Policies for information security</td></tr>
+      <tr><td>Applicable regulations</td><td>GDPR · EU AI Act · NIS2 · TTDSG · HGB · AO</td></tr>
+    </table>
+  </div>
+
+  <div class="approval-box">
+    <div class="approval-item">
+      <span class="role">Prepared by</span>
+      <span class="name">GRC Specialist</span>
+      <div class="sig">Signature: _______________</div>
+    </div>
+    <div class="approval-item">
+      <span class="role">Reviewed by</span>
+      <span class="name">Tech Lead</span>
+      <div class="sig">Signature: _______________</div>
+    </div>
+    <div class="approval-item">
+      <span class="role">Approved by</span>
+      <span class="name">CEO / Founder</span>
+      <div class="sig">Signature: _______________</div>
+    </div>
+  </div>
+
+  <!-- 1. PURPOSE -->
+  <div class="section-header">
+    <span class="section-num">1 · Purpose</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 1</div>
+    <h2>Purpose</h2>
+    <p>This Information Security Policy establishes the management direction and support for information security at NovaTech GmbH in accordance with ISO/IEC 27001:2022 control A.5.1. It defines the organization's commitment to protecting the confidentiality, integrity, and availability of all information assets, with particular emphasis on the personal data of EU residents processed by NovaTech as a data processor under GDPR Article 28.</p>
+    <p>This policy serves as the foundational document of NovaTech's Information Security Management System (ISMS) and provides the governance framework from which all subordinate policies, procedures, and controls are derived.</p>
+  </div>
+
+  <!-- 2. SCOPE -->
+  <div class="section-header">
+    <span class="section-num">2 · Scope</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 2</div>
+    <h2>Scope</h2>
+    <p>This policy applies to all information assets owned, processed, or managed by NovaTech GmbH, and to all individuals who access those assets. The scope includes:</p>
+    <ul class="obligations-list">
+      <li>All 30 employees of NovaTech GmbH regardless of role, location, or contract type</li>
+      <li>All contractors, consultants, and third parties with access to NovaTech systems or data</li>
+      <li>All information assets including the AI-powered customer analytics platform, client behavioral data, and internal business data</li>
+      <li>The entire AWS eu-central-1 (Frankfurt) cloud infrastructure used to host NovaTech's services</li>
+      <li>All personally-owned devices (BYOD) used to access NovaTech systems or client data</li>
+      <li>All third-party supplier relationships including Stripe, Scrive, Whereby, Matomo Cloud, Piwik PRO, Brevo, and Cal.com EU</li>
+    </ul>
+    <p style="margin-top:1rem;">This policy does not cover information assets owned exclusively by NovaTech's clients. However, as a data processor under GDPR Article 28, NovaTech acknowledges its obligations to protect client personal data in accordance with controller instructions and applicable law.</p>
+  </div>
+
+  <!-- 3. PRINCIPLES -->
+  <div class="section-header">
+    <span class="section-num">3 · Security Principles</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 3</div>
+    <h2>Information security principles</h2>
+    <p>NovaTech GmbH commits to the following core principles in the management of information security:</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <h4>Confidentiality</h4>
+        <p>Information is accessible only to those authorized to access it. Client behavioral data processed under GDPR Art. 28 is treated as Restricted and subject to the strictest access controls.</p>
+      </div>
+      <div class="principle-card green">
+        <h4>Integrity</h4>
+        <p>Information is accurate, complete, and protected from unauthorized modification. AI model outputs must be reliable and traceable to meet EU AI Act Annex III governance requirements.</p>
+      </div>
+      <div class="principle-card amber">
+        <h4>Availability</h4>
+        <p>Information and systems are accessible when needed by authorized users. AWS multi-AZ deployment supports availability commitments to clients under service agreements.</p>
+      </div>
+      <div class="principle-card red">
+        <h4>Accountability</h4>
+        <p>All actions on information assets are traceable to an individual. AWS CloudTrail and application audit logs provide the accountability trail required by GDPR Art. 5(2).</p>
+      </div>
+      <div class="principle-card">
+        <h4>Privacy by Design</h4>
+        <p>Data protection is embedded into product development from the outset, not added as an afterthought. All new analytics features undergo privacy impact assessment before release.</p>
+      </div>
+      <div class="principle-card green">
+        <h4>Risk-based approach</h4>
+        <p>Security controls are proportionate to identified risks. The risk register and gap analysis inform prioritization of control implementation across all four ISO 27001 domains.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ROLES -->
+  <div class="section-header">
+    <span class="section-num">4 · Roles & Responsibilities</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 4</div>
+    <h2>Roles and responsibilities</h2>
+    <p>Information security is a shared responsibility. The following roles carry specific obligations under this policy:</p>
+    <table class="roles-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Responsibilities</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="role-name">CEO / Founder</td>
+          <td>Approves and endorses this policy. Provides resources for ISMS implementation. Acts as ultimate accountable owner for information security and GDPR processor obligations. Reviews ISMS annually.</td>
+        </tr>
+        <tr>
+          <td class="role-name">GRC Specialist</td>
+          <td>Authors, maintains, and reviews all ISMS documentation. Conducts risk assessments and gap analyses. Monitors regulatory changes affecting GDPR, EU AI Act, NIS2, and TTDSG. Coordinates incident response.</td>
+        </tr>
+        <tr>
+          <td class="role-name">Tech Lead</td>
+          <td>Implements and maintains technical security controls on AWS infrastructure. Manages IAM policies, security group rules, CloudTrail, and encryption configurations. Reviews security implications of architectural changes.</td>
+        </tr>
+        <tr>
+          <td class="role-name">All employees</td>
+          <td>Read, understand, and comply with this policy and all subordinate policies. Complete annual security awareness training. Report suspected security incidents immediately. Protect devices and credentials at all times.</td>
+        </tr>
+        <tr>
+          <td class="role-name">Third parties</td>
+          <td>Comply with NovaTech's security requirements as defined in supplier agreements and Data Processing Agreements. Notify NovaTech immediately upon discovery of any security incident affecting NovaTech data.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. CLASSIFICATION -->
+  <div class="section-header">
+    <span class="section-num">5 · Information Classification</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 5</div>
+    <h2>Information classification scheme</h2>
+    <p>All information assets must be classified according to the following scheme. The classification determines the applicable handling, storage, transmission, and disposal requirements.</p>
+    <table class="class-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Definition</th>
+          <th>Examples at NovaTech</th>
+          <th>Handling requirements</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="class-badge cb-public">Public</span></td>
+          <td>Information approved for public release</td>
+          <td>Website content, published blog posts, marketing materials</td>
+          <td>No special controls required. Standard review before publication.</td>
+        </tr>
+        <tr>
+          <td><span class="class-badge cb-internal">Internal</span></td>
+          <td>Information for internal use only</td>
+          <td>Internal procedures, meeting notes, employee communications</td>
+          <td>Not to be shared externally without authorization. Store on approved systems only.</td>
+        </tr>
+        <tr>
+          <td><span class="class-badge cb-confidential">Confidential</span></td>
+          <td>Sensitive business information</td>
+          <td>Financial data, supplier contracts, source code, AWS credentials</td>
+          <td>Encrypted at rest and in transit. Access restricted by role. Shared only under NDA.</td>
+        </tr>
+        <tr>
+          <td><span class="class-badge cb-restricted">Restricted</span></td>
+          <td>Highest sensitivity — regulatory obligations apply</td>
+          <td>Client personal data (GDPR), AI model training datasets, authentication credentials</td>
+          <td>Encrypted with AWS KMS. Strict RBAC. No BYOD access without MDM. Processed only per controller instructions (GDPR Art. 28).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. AWS SHARED RESPONSIBILITY -->
+  <div class="section-header">
+    <span class="section-num">6 · AWS Shared Responsibility</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 6</div>
+    <h2>Cloud security and shared responsibility</h2>
+    <p>NovaTech GmbH hosts its entire infrastructure on Amazon Web Services (AWS) eu-central-1 (Frankfurt). AWS operates under a shared responsibility model that divides security obligations between AWS and NovaTech as follows:</p>
+    <h3>AWS is responsible for:</h3>
+    <ul class="obligations-list" style="margin-bottom:1rem;">
+      <li class="green">Physical security of data centers, hardware, and networking infrastructure</li>
+      <li class="green">Virtualization layer, managed service availability, and global infrastructure</li>
+      <li class="green">Compliance certifications covering physical infrastructure: ISO 27001, SOC 2 Type II, BSI C5</li>
+    </ul>
+    <h3>NovaTech is responsible for:</h3>
+    <ul class="obligations-list">
+      <li class="critical">Configuration of all AWS services including IAM policies, S3 bucket permissions, and security groups</li>
+      <li class="critical">Encryption of data at rest (SSE-KMS) and in transit (TLS 1.2+) for all client data</li>
+      <li class="critical">Enabling and monitoring AWS CloudTrail, GuardDuty, Config, and Inspector</li>
+      <li>Operating system patching on EC2 instances and Lambda function security</li>
+      <li>Network access controls via VPC security groups and NACLs</li>
+      <li>Identity and access management including MFA enforcement on all IAM users</li>
+    </ul>
+    <p style="margin-top:1rem;">No NovaTech data may be stored outside the AWS eu-central-1 region without explicit written approval from the CEO, to preserve GDPR data residency requirements.</p>
+  </div>
+
+  <!-- 7. GDPR PROCESSOR OBLIGATIONS -->
+  <div class="section-header">
+    <span class="section-num">7 · GDPR Processor Obligations</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 7</div>
+    <h2>Obligations as a data processor</h2>
+    <p>NovaTech GmbH acts as a data processor under GDPR Article 28 for all client personal data ingested through the analytics platform. This role imposes the following specific obligations that are integral to this policy:</p>
+    <ul class="obligations-list">
+      <li class="critical">Process personal data only on documented instructions from the data controller (client). Never use client data for NovaTech's own purposes.</li>
+      <li class="critical">Notify the data controller without undue delay — and no later than 24 hours internally — upon becoming aware of a personal data breach affecting controller data.</li>
+      <li>Maintain a Record of Processing Activities (RoPA) covering all processing operations performed on behalf of controllers, per GDPR Art. 30(2).</li>
+      <li>Engage sub-processors (AWS, Stripe, Scrive, Whereby, Matomo, Piwik PRO, Brevo, Cal.com EU) only with prior written authorization from controllers or through general authorization clauses in DPAs.</li>
+      <li>Assist controllers in fulfilling data subject rights requests (access, erasure, portability) within the timeframes specified in the applicable DPA.</li>
+      <li>Delete or return all personal data to the controller upon termination of the service agreement, per controller instructions.</li>
+      <li>Make available all information necessary to demonstrate compliance with GDPR Art. 28 and allow for audits conducted by the controller or its designated auditor.</li>
+    </ul>
+  </div>
+
+  <!-- 8. REGULATORY FRAMEWORK -->
+  <div class="section-header">
+    <span class="section-num">8 · Regulatory Framework</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 8</div>
+    <h2>Applicable regulations and standards</h2>
+    <p>NovaTech GmbH operates under the following regulatory obligations. Compliance with these frameworks is a condition of this policy and must be maintained at all times:</p>
+    <div class="reg-grid">
+      <div class="reg-card">
+        <div class="reg-name">GDPR</div>
+        <div class="reg-desc">General Data Protection Regulation. Applies as data processor (Art. 28) for all client personal data. Key obligations: RoPA, breach notification, DPIA, data minimization.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-name">EU AI Act</div>
+        <div class="reg-desc">Applies to NovaTech's AI analytics models under Annex III high-risk classification (automated profiling affecting individuals). Requires data governance, bias testing, and conformity assessment.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-name">NIS2 Directive</div>
+        <div class="reg-desc">Network and Information Systems Directive. Applies as a digital service provider. Requires risk management measures, incident reporting to BSI, and supply chain security.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-name">TTDSG</div>
+        <div class="reg-desc">German Telecommunications Digital Services Act. Governs cookie consent and tracking on NovaTech's platform and client-facing services.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-name">HGB / AO</div>
+        <div class="reg-desc">German Commercial Code and Tax Code. Requires retention of financial records (invoices, contracts) for 10 years. Applies to Stripe payment records and client contracts.</div>
+      </div>
+      <div class="reg-card">
+        <div class="reg-name">ISO 27001:2022</div>
+        <div class="reg-desc">International standard for information security management. NovaTech's ISMS is built against this standard with a target certification timeline of 12 months.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. SECURITY OBLIGATIONS -->
+  <div class="section-header">
+    <span class="section-num">9 · Employee Obligations</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 9</div>
+    <h2>Security obligations for all staff</h2>
+    <p>All employees, contractors, and third parties with access to NovaTech systems must comply with the following obligations at all times:</p>
+    <ul class="obligations-list">
+      <li class="critical">Never share login credentials, AWS access keys, or API keys with any other person under any circumstances.</li>
+      <li class="critical">Report any suspected or confirmed security incident, data breach, or policy violation to the GRC Specialist immediately and no later than 2 hours after discovery.</li>
+      <li class="critical">Never access, copy, or transmit client personal data outside of approved systems or for any purpose not authorized by the data controller.</li>
+      <li>Enable MFA on all accounts with access to NovaTech systems, AWS console, or client data.</li>
+      <li>Lock workstation screens when leaving a device unattended, even briefly.</li>
+      <li>Use only approved tools and cloud services for work-related activities. Unapproved SaaS tools must not be used to process NovaTech or client data.</li>
+      <li>Complete annual security awareness training within 30 days of the training launch date.</li>
+      <li>Comply with the BYOD policy when using personal devices for work, including enabling full-disk encryption and a screen lock PIN.</li>
+    </ul>
+  </div>
+
+  <!-- 10. VIOLATIONS -->
+  <div class="section-header">
+    <span class="section-num">10 · Policy Violations</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 10</div>
+    <h2>Consequences of non-compliance</h2>
+    <p>Violations of this policy will be handled in accordance with NovaTech's disciplinary procedures and may result in consequences proportionate to the severity and intent of the violation:</p>
+    <div class="violations-grid">
+      <div class="violation-card">
+        <span class="severity sev-critical">Critical violation</span>
+        <h4>Immediate termination</h4>
+        <p>Intentional unauthorized access to client data, deliberate sharing of credentials, sabotage of security controls, or failure to report a known breach. May result in legal action and regulatory reporting.</p>
+      </div>
+      <div class="violation-card">
+        <span class="severity sev-high">Serious violation</span>
+        <h4>Formal disciplinary action</h4>
+        <p>Repeated non-compliance with security requirements, use of unauthorized tools to process client data, failure to complete mandatory training, or gross negligence leading to a security incident.</p>
+      </div>
+      <div class="violation-card">
+        <span class="severity sev-high">Minor violation</span>
+        <h4>Written warning and retraining</h4>
+        <p>Isolated failure to lock workscreen, use of non-approved tool for internal (non-client) data, or failure to report a suspected (not confirmed) incident in a timely manner.</p>
+      </div>
+      <div class="violation-card">
+        <span class="severity sev-critical">Regulatory breach</span>
+        <h4>Regulatory notification required</h4>
+        <p>Any violation that results in a personal data breach affecting client personal data must be reported to the relevant data controller within 24 hours, regardless of disciplinary outcome.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. REVIEW -->
+  <div class="section-header">
+    <span class="section-num">11 · Review & Maintenance</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 11</div>
+    <h2>Policy review cycle</h2>
+    <p>This policy must be reviewed at least annually by the GRC Specialist and approved by the CEO. An extraordinary review must be triggered by any of the following events:</p>
+    <ul class="obligations-list">
+      <li>A significant change in NovaTech's business activities, technology stack, or AWS architecture</li>
+      <li>A material change in applicable regulatory requirements (GDPR, EU AI Act, NIS2, TTDSG)</li>
+      <li>A significant security incident or personal data breach affecting client data</li>
+      <li>Findings from an internal audit, external audit, or ISO 27001 certification assessment</li>
+      <li>Merger, acquisition, or significant change in organizational structure</li>
+    </ul>
+    <div class="review-box">
+      <div>
+        <p>Current version: <strong>1.0</strong> · Approved: April 30, 2026</p>
+        <p>Next scheduled review: <strong>April 30, 2027</strong></p>
+      </div>
+      <div class="review-date">POL-ISP-001</div>
+    </div>
+  </div>
+
+  <!-- 12. RELATED DOCUMENTS -->
+  <div class="section-header">
+    <span class="section-num">12 · Related Documents</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="policy-section">
+    <div class="policy-section-label">POL-ISP-001 · Section 12</div>
+    <h2>Related policies and documents</h2>
+    <p>This policy is the parent document of the following subordinate policies and reference documents. All subordinate policies must be consistent with and derive authority from this policy:</p>
+    <div class="related-docs">
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Acceptable Use Policy</div>
+          <div class="doc-ref">POL-AUP-002 · A.5.10 · A.6.7</div>
+        </div>
+        <a href="https://ledy89.github.io/acceptable-use-policy.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Data Breach Response Policy</div>
+          <div class="doc-ref">POL-DBR-003 · A.5.24 · A.5.26 · GDPR Art. 33</div>
+        </div>
+        <a href="https://ledy89.github.io/breach-response-policy.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">ISO 27001 Gap Analysis</div>
+          <div class="doc-ref">Reference document · All 93 Annex A controls</div>
+        </div>
+        <a href="https://ledy89.github.io/gap-analysis.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Statement of Applicability</div>
+          <div class="doc-ref">Reference document · ISO 27001:2022</div>
+        </div>
+        <a href="https://ledy89.github.io/soa.html">View →</a>
+      </div>
+      <div class="related-doc">
+        <div>
+          <div class="doc-name">Risk Assessment</div>
+          <div class="doc-ref">Reference document · ISO 27001 · NIST CSF · GDPR</div>
+        </div>
+        <a href="https://ledy89.github.io/risk-assessment.html">View →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="author-footer">
+  <div class="author-info">
+    <h3>Ledy Florez</h3>
+    <p>GRC Specialist · ISO 27001 · GDPR · EU AI Act · Berlin, Germany</p>
+  </div>
+  <div class="author-links">
+    <a href="https://ledy89.github.io" class="author-link">← Portfolio</a>
+    <a href="https://ledy89.github.io/gap-analysis.html" class="author-link">Gap Analysis</a>
+    <a href="https://linkedin.com/in/ledy-florez" class="author-link">LinkedIn</a>
+  </div>
+</div>
+
+</body>
+</html>
