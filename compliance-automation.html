@@ -151,12 +151,37 @@
     The objective was to design a zero-touch orchestration pipeline that automatically ingests incoming security logs, applies conditional logic to filter out lower-tier alerts, formats data into standardized audit reports, and dynamically routes high-priority tickets straight to engineering work streams.
   </p>
 
-  <h2>2. Architectural Workflow</h2>
+   <h2>2. Architectural Workflow</h2>
   <ol>
-    <li><strong>Data Ingestion (The Ingestion Layer):</strong> Designed a structured data sheet in Google Sheets to simulate cloud logging telemetry (such as AWS CloudTrail logs or AWS Security Hub events). Data metrics capture infrastructure identifiers (Vulnerability IDs), system dependencies, impact descriptions, and severity states.</li>
-    <li><strong>Automation & Governance Logic (The Orchestration Layer):</strong> Developed custom integration middleware via Zapier using API webhooks. To prevent alert fatigue among engineering groups, conditional logic was introduced to enforce automatic triaging: the system drops lower-priority inputs and triggers actions exclusively for assets tagged as <code>High</code> or <code>Critical</code>.</li>
-    <li><strong>Remediation Escalation (The Action Layer):</strong> Approved compliance violations are pushed via dynamic API payloads to an engineering task board in Trello, auto-populating structured Markdown audit templates.</li>
+    <li>
+      <strong>Data Ingestion (The Ingestion Layer):</strong> Designed a structured data sheet in Google Sheets to simulate cloud logging telemetry (such as AWS CloudTrail logs or AWS Security Hub events). Data metrics capture infrastructure identifiers (Vulnerability IDs), system dependencies, impact descriptions, and severity states.
+      
+      <p style="margin-top: 1.5rem; font-weight: 500; color: var(--ink);">
+        Figure 1: Ingestion Layer – Simulated telemetry and log security infrastructure data.
+      </p>
+      <p style="font-size: 13.5px; color: var(--ink-faint); margin-bottom: 0.75rem;">
+        The pipeline triggers upon log detection. Lower-risk vulnerabilities remain logged for internal auditing, while high-priority threats are prioritized.
+      </p>
+      <img src="img/1-ingestion.png" alt="Google Sheets Security Log Simulation" style="width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--rule); margin-bottom: 1.5rem;"> 
+    </li>
+
+    <li>
+      <strong>Automation & Governance Logic (The Orchestration Layer):</strong> Developed custom integration middleware via Zapier using API webhooks. To prevent alert fatigue among engineering groups, conditional logic was introduced to enforce automatic triaging: the system drops lower-priority inputs and triggers actions exclusively for assets tagged as <code>High</code> or <code>Critical</code>.
+      
+      <p style="margin-top: 2rem; font-weight: 500; color: var(--ink);">
+        Figure 2: Orchestration Layer – Automated triage logic and conditional routing via Zapier.
+      </p>
+      <p style="font-size: 13.5px; color: var(--ink-faint); margin-bottom: 0.75rem;">
+        An API-driven gateway enforces governance thresholds, filtering events to prevent alert fatigue and routing actionable tickets to production boards.
+      </p>
+      <img src="img/2-triage.png" alt="Zapier Automation & Triage Logic" style="width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--rule); margin-bottom: 1.5rem;">
+    </li>
+
+    <li>
+      <strong>Remediation Escalation (The Action Layer):</strong> Approved compliance violations are pushed via dynamic API payloads to an engineering task board in Trello, auto-populating structured Markdown audit templates.
+    </li>
   </ol>
+
 
   <h2>3. The Standardized Compliance Output</h2>
   <p>
