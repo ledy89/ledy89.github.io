@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliance Automation Workflow - GRC Portfolio</title>
+<link href="https://googleapis.com" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --ink-muted: #4a4f5e;
+    --ink-faint: #8a909f;
+    --surface: #f7f6f2;
+    --surface-2: #eeecea;
+    --white: #ffffff;
+    --accent: #1a3a5c;
+    --accent-light: #e8f0f8;
+    --accent-mid: #2d6aa0;
+    --rule: #d5d2cb;
+    --tag-bg: #e4edf5;
+    --tag-text: #1a3a5c;
+  }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 3rem 1.5rem;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+
+  .back-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-mid);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+
+  .back-link:hover { text-decoration: underline; }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-mid);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+
+  .tag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  p {
+    color: var(--ink-muted);
+    margin-bottom: 1.25rem;
+    font-size: 14.5px;
+  }
+
+  ul, ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+    color: var(--ink-muted);
+    font-size: 14.5px;
+  }
+
+  li { margin-bottom: 0.5rem; }
+
+  code {
+    font-family: 'DM Mono', monospace;
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .blockquote {
+    border-left: 3px solid var(--accent-mid);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--ink-muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="back-link">← Back to Portfolio</a>
+  
+  <div class="meta-label">Project Documentation</div>
+  <h1>Continuous Monitoring & Automated Remediation Workflow</h1>
+  
+  <div class="tags-row">
+    <span class="tag">Compliance Automation</span>
+    <span class="tag">Zapier</span>
+    <span class="tag">Trello</span>
+    <span class="tag">API Integration</span>
+    <span class="tag">Risk Triaging</span>
+  </div>
+
+  <h2>1. Executive Summary & Objective</h2>
+  <p>
+    Modern GRC frameworks demand a shift from traditional point-in-time compliance checks toward <strong>Continuous Control Monitoring (CCM)</strong>. This project serves as a technical proof of concept simulating how Cloud Security Posture Management (CSPM) tools like Vanta interact with corporate technical infrastructure. 
+  </p>
+  <p>
+    The objective was to design a zero-touch orchestration pipeline that automatically ingests incoming security logs, applies conditional logic to filter out lower-tier alerts, formats data into standardized audit reports, and dynamically routes high-priority tickets straight to engineering work streams.
+  </p>
+
+  <h2>2. Architectural Workflow</h2>
+  <ol>
+    <li><strong>Data Ingestion (The Ingestion Layer):</strong> Designed a structured data sheet in Google Sheets to simulate cloud logging telemetry (such as AWS CloudTrail logs or AWS Security Hub events). Data metrics capture infrastructure identifiers (Vulnerability IDs), system dependencies, impact descriptions, and severity states.</li>
+    <li><strong>Automation & Governance Logic (The Orchestration Layer):</strong> Developed custom integration middleware via Zapier using API webhooks. To prevent alert fatigue among engineering groups, conditional logic was introduced to enforce automatic triaging: the system drops lower-priority inputs and triggers actions exclusively for assets tagged as <code>High</code> or <code>Critical</code>.</li>
+    <li><strong>Remediation Escalation (The Action Layer):</strong> Approved compliance violations are pushed via dynamic API payloads to an engineering task board in Trello, auto-populating structured Markdown audit templates.</li>
+  </ol>
+
+  <h2>3. The Standardized Compliance Output</h2>
+  <p>
+    When a qualifying vulnerability triggers the API, the system automatically translates the machine logs into a standardized markdown payload for cross-functional teams:
+  </p>
+  <div class="blockquote">
+    <h3>🛡️ GRC Incident Details</h3>
+    * <strong>Vulnerability ID:</strong> VULN-002<br>
+    * <strong>Current Status:</strong> Open<br><br>
+    <h3>🚨 Risk Assessment</h3>
+    * <strong>Risk Severity:</strong> Critical<br>
+    * <strong>Description:</strong> Unencrypted backup file discovered in a public AWS S3 bucket, exposing EU customer names and emails.<br><br>
+    <h3>⚙️ Automation Metadata</h3>
+    * Ticket generated automatically via Zapier Compliance Workflow.
+  </div>
+
+  <h2>4. Control & Framework Mapping (ISO 27001 & NIST)</h2>
+  <p>
+    By reducing the Mean Time to Detection (MTTD) and Mean Time to Remediation (MTTR) down to seconds, this specific pipeline architectural logic satisfies the structural requirements of major regulatory frameworks:
+  </p>
+  <ul>
+    <li><strong>ISO/IEC 27001:2022 Control A.8.16 (Monitoring activities):</strong> Achieved via continuous webhook polling on data assets.</li>
+    <li><strong>ISO/IEC 27001:2022 Control A.5.25 (Assessment & decision on information security events):</strong> Resolved by automating the triage criteria, ensuring high-impact exceptions bypass manual approval chains.</li>
+    <li><strong>NIST CSF v2.0 (DE.AE-02 / RS.RP-01):</strong> Implemented automated detection thresholds linked directly to defined response protocols.</li>
+  </ul>
+</div>
+
+</body>
+</html>
